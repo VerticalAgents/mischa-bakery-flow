@@ -7,10 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f7f4ef;
+    --bg: #f0eee9;
     --surface: #ffffff;
-    --surface2: #faf8f5;
-    --border: #e4ddd3;
+    --surface2: #f8f6f2;
+    --border: #e8e2d8;
     --amber: #b86e1a;
     --amber-dim: #d4893a;
     --amber-light: rgba(184,110,26,0.10);
@@ -28,9 +28,12 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: var(--font-mono); font-size: 13px; min-height: 100vh; }
 
+  /* ── HEADER ── */
   header {
-    background: var(--surface); border-bottom: 1px solid var(--border);
-    padding: 14px 28px 0; position: sticky; top: 0; z-index: 100;
+    background: var(--surface);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    padding: 16px 32px 0;
+    position: sticky; top: 0; z-index: 100;
   }
   .header-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; }
   .logo { display: flex; align-items: baseline; gap: 12px; }
@@ -39,24 +42,24 @@
   .header-right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 
   .tab-nav { display: flex; }
-  .tab-btn { background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-family: var(--font-mono); font-size: 12px; padding: 8px 18px 10px; cursor: pointer; letter-spacing: 0.06em; transition: all 0.15s; margin-bottom: -1px; }
+  .tab-btn { background: none; border: none; border-bottom: 2.5px solid transparent; color: var(--text-muted); font-family: var(--font-mono); font-size: 12px; padding: 8px 18px 10px; cursor: pointer; letter-spacing: 0.06em; transition: all 0.15s; margin-bottom: -1px; }
   .tab-btn:hover { color: var(--text); }
   .tab-btn.active { color: var(--amber); border-bottom-color: var(--amber); font-weight: 500; }
   .tab-content { display: none; }
-  .tab-content.active { display: block; }
+  .tab-content.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  .flavor-toggle { display: flex; gap: 2px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 3px; }
-  .flavor-btn { background: none; border: none; color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; padding: 5px 12px; border-radius: 4px; cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
+  .flavor-toggle { display: flex; gap: 2px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 3px; }
+  .flavor-btn { background: none; border: none; color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; padding: 5px 12px; border-radius: 6px; cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
   .flavor-btn.active { background: var(--amber); color: white; font-weight: 500; }
-
-  .icon-btn { background: none; border: 1px solid var(--border); color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; padding: 7px 14px; border-radius: 6px; cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
+  .icon-btn { background: none; border: 1px solid var(--border); color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; padding: 7px 14px; border-radius: 8px; cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
   .icon-btn:hover { border-color: var(--amber); color: var(--amber); }
   .icon-btn.primary { background: var(--amber); border-color: var(--amber); color: white; }
   .icon-btn.primary:hover { opacity: 0.88; }
   .save-ind { font-size: 10px; color: var(--text-dim); letter-spacing: 0.06em; transition: color 0.4s; }
   .save-ind.ok { color: var(--green); }
 
-  /* FLUXO */
+  /* ── FLUXO ── */
   .sw-wrap { padding: 20px 28px 48px; overflow-x: auto; }
   table.sw { border-collapse: collapse; min-width: 760px; width: 100%; }
   .lane-th { vertical-align: top; padding: 18px 14px 18px 0; position: sticky; left: 0; background: var(--bg); z-index: 10; }
@@ -69,8 +72,8 @@
   .flow { display: flex; flex-wrap: wrap; align-items: flex-start; }
   .step-wrap { display: flex; align-items: center; }
   .arrow { color: var(--text-dim); font-size: 13px; padding: 0 5px; flex-shrink: 0; margin-bottom: 4px; }
-  .card { width: 154px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 11px; margin-bottom: 4px; transition: border-color 0.15s; }
-  .card:hover { border-color: var(--amber-dim); }
+  .card { width: 154px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 11px; margin-bottom: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: border-color 0.15s, box-shadow 0.2s, transform 0.2s; }
+  .card:hover { border-color: var(--amber-dim); box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-1px); }
   .card.ddl-card { border-left: 3px solid #8a4a7a; }
   .card-num { font-size: 9px; color: var(--text-dim); letter-spacing: 0.1em; margin-bottom: 3px; }
   .card-name { font-size: 12px; font-weight: 500; color: var(--text); line-height: 1.3; margin-bottom: 7px; }
@@ -87,70 +90,9 @@
   .time-in:focus { border-color: var(--amber-dim); }
   .time-in::placeholder { color: var(--text-dim); font-size: 10px; }
   .time-fixed { font-size: 12px; font-weight: 500; color: var(--amber); }
-  .time-unit { font-size: 10px; color: var(--text-dim); }
   .loop-note { display: flex; align-items: center; gap: 6px; margin: 4px 0 2px 10px; font-size: 10px; color: var(--amber-dim); }
   .loop-arrow { color: var(--amber); font-size: 15px; }
   .lane-sep td { padding: 6px 0; border-top: 1px solid var(--border); }
-
-  /* DASHBOARD */
-  .dash-wrap { padding: 28px 28px 48px; max-width: 960px; }
-  .dash-section { margin-bottom: 36px; }
-  .section-title { font-family: var(--font-head); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
-  .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
-
-  .metric-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 10px; margin-bottom: 16px; }
-  .mc { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
-  .mc.a-blue  { border-top: 2px solid var(--blue); }
-  .mc.a-green { border-top: 2px solid var(--green); }
-  .mc.a-amber { border-top: 2px solid var(--amber); }
-  .mc-lbl { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; line-height: 1.3; }
-  .mc-val { font-size: 22px; font-weight: 500; color: var(--text); line-height: 1; }
-  .mc-val small { font-size: 12px; color: var(--text-muted); font-weight: 300; }
-  .mc-note { font-size: 10px; color: var(--text-dim); margin-top: 4px; line-height: 1.4; }
-
-  .dash-alert { display: flex; gap: 10px; padding: 12px 16px; border-radius: 8px; font-size: 12px; line-height: 1.5; margin-bottom: 14px; }
-  .dash-alert.warn { background: rgba(184,110,26,0.08); border: 1px solid rgba(184,110,26,0.2); color: #6a3e0e; }
-  .dash-alert.ok   { background: var(--green-light); border: 1px solid rgba(74,140,34,0.2); color: #2a5010; }
-  .dash-alert.info { background: var(--blue-light); border: 1px solid rgba(42,110,160,0.2); color: #1a4670; }
-
-  .breakdown { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 16px; border-collapse: collapse; }
-  .breakdown th { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); padding: 10px 14px; text-align: left; background: var(--surface2); border-bottom: 1px solid var(--border); font-weight: 500; }
-  .breakdown td { padding: 9px 14px; font-size: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  .breakdown tr:last-child td { border-bottom: none; }
-  .t-time { color: var(--amber); font-weight: 500; text-align: right; white-space: nowrap; }
-  .t-time.missing { color: var(--text-dim); font-weight: 400; }
-  .t-par { font-size: 10px; color: var(--purple); margin-left: 4px; }
-
-  .gantt-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 20px 16px; overflow-x: auto; }
-  .gantt-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-  .gantt-lbl { font-size: 11px; color: var(--text-muted); width: 120px; flex-shrink: 0; text-align: right; }
-  .gantt-track { flex: 1; height: 30px; background: var(--bg); border-radius: 5px; position: relative; min-width: 360px; }
-  .gbar { position: absolute; height: 100%; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; overflow: hidden; white-space: nowrap; transition: left .3s, width .3s; }
-  .gbar.prod { background: rgba(42,110,160,0.15); color: var(--blue); border: 1px solid rgba(42,110,160,0.25); }
-  .gbar.pos  { background: var(--green-light); color: var(--green); border: 1px solid rgba(74,140,34,0.25); }
-  .gbar.pre  { background: var(--amber-light); color: var(--amber); border: 1px solid rgba(184,110,26,0.25); }
-  .gantt-axis { display: flex; justify-content: space-between; padding-left: 132px; margin-top: 8px; font-size: 9px; color: var(--text-dim); letter-spacing: 0.06em; }
-
-  .notice { background: var(--surface2); border: 1px dashed var(--border); border-radius: 8px; padding: 14px 18px; font-size: 12px; color: var(--text-muted); line-height: 1.6; }
-
-  /* CONFIG */
-  .config-wrap { padding: 28px 28px 48px; max-width: 620px; }
-  .config-section { margin-bottom: 36px; }
-  .config-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
-  .cfg-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-  .cfg-row:first-child { padding-top: 0; }
-  .cfg-row:last-child { border-bottom: none; padding-bottom: 0; }
-  .cfg-lbl { font-size: 13px; color: var(--text); }
-  .cfg-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-  .ppl-ctrl { display: flex; align-items: center; gap: 10px; }
-  .ppl-btn { width: 30px; height: 30px; background: var(--bg); border: 1px solid var(--border); border-radius: 5px; color: var(--text); font-size: 18px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); transition: all 0.12s; }
-  .ppl-btn:hover { border-color: var(--amber); color: var(--amber); }
-  .ppl-val { font-size: 20px; font-weight: 500; min-width: 24px; text-align: center; color: var(--amber); font-family: var(--font-mono); }
-  .meta-row { display: flex; align-items: center; gap: 10px; }
-  .meta-input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--amber); font-family: var(--font-mono); font-size: 24px; font-weight: 500; padding: 6px 12px; width: 90px; outline: none; text-align: center; transition: border-color .15s; }
-  .meta-input:focus { border-color: var(--amber); }
-  .meta-unit { font-size: 13px; color: var(--text-muted); }
-  .config-note { font-size: 11px; color: var(--text-muted); line-height: 1.6; padding: 12px 14px; background: var(--surface2); border-radius: 6px; margin-top: 10px; }
 
   /* GROUP */
   .group-wrap { border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px 12px; margin-bottom: 4px; background: var(--surface2); position: relative; }
@@ -164,6 +106,203 @@
   .group-badge.gray  { background: rgba(0,0,0,0.06); color: var(--text-muted); }
   .group-flow { display: flex; flex-wrap: wrap; align-items: flex-start; }
 
+  /* ── DASHBOARD LAYOUT ── */
+  .dash-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+    padding: 28px 32px 48px;
+    align-items: start;
+  }
+  @media (max-width: 1023px) {
+    .dash-layout { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 767px) {
+    .dash-layout { padding: 16px 16px 48px; gap: 16px; }
+  }
+
+  /* Hero card */
+  .production-hero {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+    margin-bottom: 16px;
+  }
+  .hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+  .hero-title { font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+  .hero-formas-row { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; }
+  .hero-formas-row input { background: none; border: none; color: var(--amber); font-family: var(--font-mono); font-size: 15px; font-weight: 500; width: 52px; outline: none; text-align: center; }
+  .hero-formas-row span { font-size: 11px; color: var(--text-muted); }
+  .hero-kpi-row { display: flex; align-items: flex-end; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+  .hero-value { font-family: var(--font-head); font-size: 42px; font-weight: 700; color: var(--text); line-height: 1; }
+  .hero-kpi-meta { display: flex; flex-direction: column; gap: 6px; padding-bottom: 4px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+  .hero-badge.ok   { background: var(--green-light); color: var(--green); }
+  .hero-badge.warn { background: var(--amber-light); color: var(--amber); }
+  .hero-badge.info { background: var(--blue-light); color: var(--blue); }
+  .hero-sub { font-size: 11px; color: var(--text-muted); }
+
+  /* Mini bar chart */
+  .hero-chart { margin-bottom: 20px; }
+
+  /* Cycle indicators */
+  .cycle-indicators { display: flex; gap: 5px; flex-wrap: wrap; }
+  .cycle-dot { font-size: 10px; padding: 3px 8px; border-radius: 20px; font-family: var(--font-mono); background: var(--bg); color: var(--text-dim); border: 1px solid var(--border); transition: all 0.15s; }
+  .cycle-dot.active { background: var(--amber); color: white; border-color: var(--amber); font-weight: 500; }
+
+  /* Bottom grid */
+  .dash-bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 767px) {
+    .dash-bottom-grid { grid-template-columns: 1fr; }
+    .hero-value { font-size: 32px; }
+  }
+
+  /* Equipe card (Let's Connect) */
+  .connect-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 22px 22px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .connect-title { font-family: var(--font-head); font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+  .connect-person { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .connect-person:last-child { border-bottom: none; padding-bottom: 0; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 15px; font-weight: 700; flex-shrink: 0; }
+  .avatar.blue  { background: var(--blue-light); color: var(--blue); }
+  .avatar.amber { background: var(--amber-light); color: var(--amber); }
+  .connect-info { flex: 1; min-width: 0; }
+  .connect-name { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .connect-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 9px; font-weight: 500; letter-spacing: 0.04em; }
+  .connect-badge.blue  { background: var(--blue-light); color: var(--blue); }
+  .connect-badge.amber { background: var(--amber-light); color: var(--amber); }
+  .ppl-stepper { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .ppl-btn-sm { width: 28px; height: 28px; background: var(--bg); border: 1px solid var(--border); border-radius: 50%; color: var(--text); font-size: 16px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); transition: all 0.12s; }
+  .ppl-btn-sm:hover { border-color: var(--amber); color: var(--amber); }
+  .ppl-val-sm { font-size: 16px; font-weight: 500; min-width: 20px; text-align: center; color: var(--amber); font-family: var(--font-mono); }
+
+  /* Insight card */
+  .insight-card {
+    background: linear-gradient(135deg, #faf8f5 0%, #f0ece4 100%);
+    border-radius: 16px;
+    padding: 22px 22px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .insight-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+    background-size: 16px 16px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .insight-content { position: relative; z-index: 1; }
+  .insight-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+  .insight-msg { font-family: var(--font-head); font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.45; margin-bottom: 16px; }
+  .insight-btn { background: var(--surface); border: none; padding: 9px 18px; border-radius: 24px; font-weight: 500; font-family: var(--font-mono); font-size: 11px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.06); color: var(--text); transition: box-shadow 0.2s; }
+  .insight-btn:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.10); }
+
+  /* Area cards (sidebar accordion) */
+  .sidebar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .sidebar-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--text); }
+  .sidebar-link { font-size: 11px; color: var(--text-muted); cursor: pointer; transition: color 0.15s; }
+  .sidebar-link:hover { color: var(--amber); }
+  .area-card {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .area-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+  .area-card-top { display: flex; align-items: center; gap: 12px; }
+  .area-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .area-icon.blue  { background: var(--blue-light); }
+  .area-icon.green { background: var(--green-light); }
+  .area-icon.amber { background: var(--amber-light); }
+  .area-info { flex: 1; min-width: 0; }
+  .area-name { font-family: var(--font-head); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .area-meta { font-size: 11px; color: var(--text-muted); }
+  .area-tags { display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
+  .area-tag { font-size: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 2px 7px; color: var(--text-muted); }
+  .area-right { text-align: right; flex-shrink: 0; }
+  .area-value { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .status-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 500; letter-spacing: 0.03em; }
+  .status-badge.blue  { background: var(--blue-light); color: var(--blue); }
+  .status-badge.green { background: var(--green-light); color: var(--green); }
+  .status-badge.amber { background: var(--amber-light); color: var(--amber); }
+  .area-chevron { font-size: 11px; color: var(--text-dim); transition: transform 0.2s; flex-shrink: 0; margin-left: 4px; }
+  .area-card.expanded .area-chevron { transform: rotate(180deg); }
+  .area-breakdown { display: none; margin-top: 14px; border-top: 1px solid var(--border); padding-top: 12px; }
+  .area-card.expanded .area-breakdown { display: block; animation: fadeIn 0.15s ease; }
+  .bk-table { width: 100%; border-collapse: collapse; }
+  .bk-table td { padding: 6px 2px; font-size: 11px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .bk-table tr:last-child td { border-bottom: none; }
+  .bk-table .bk-name { color: var(--text); }
+  .bk-table .bk-time { text-align: right; color: var(--amber); font-weight: 500; white-space: nowrap; }
+  .bk-table .bk-time.missing { color: var(--text-dim); font-weight: 400; }
+
+  /* Turno Estimado */
+  .turno-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 22px 22px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .turno-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .turno-card-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--text); }
+  .turno-today { font-size: 11px; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; }
+  .turno-kpi {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .turno-kpi-item { background: var(--surface); padding: 16px 10px; text-align: center; }
+  .turno-kpi-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+  .turno-kpi-value { font-family: var(--font-head); font-size: 20px; font-weight: 700; line-height: 1.1; }
+  .turno-kpi-sub { font-size: 10px; color: var(--text-dim); margin-top: 3px; }
+  .mini-gantt-label { font-size: 9px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px; }
+  .mini-gantt-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .mini-gantt-lbl { font-size: 10px; color: var(--text-muted); width: 80px; flex-shrink: 0; text-align: right; }
+  .mini-gantt-track { flex: 1; height: 22px; background: var(--bg); border-radius: 4px; position: relative; }
+  .mini-gbar { position: absolute; height: 100%; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; overflow: hidden; white-space: nowrap; transition: left 0.4s ease-out, width 0.4s ease-out; }
+  .mini-gbar.prod { background: rgba(42,110,160,0.15); color: var(--blue); border: 1px solid rgba(42,110,160,0.25); }
+  .mini-gbar.pos  { background: var(--green-light); color: var(--green); border: 1px solid rgba(74,140,34,0.25); }
+  .mini-gbar.pre  { background: var(--amber-light); color: var(--amber); border: 1px solid rgba(184,110,26,0.25); }
+  .mini-gantt-axis { display: flex; justify-content: space-between; padding-left: 88px; margin-top: 6px; font-size: 9px; color: var(--text-dim); }
+
+  .notice { background: var(--surface2); border: 1px dashed var(--border); border-radius: 10px; padding: 14px 16px; font-size: 11px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── CONFIG ── */
+  .config-wrap { padding: 28px 28px 48px; max-width: 620px; }
+  .config-section { margin-bottom: 36px; }
+  .section-title { font-family: var(--font-head); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+  .config-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .cfg-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .cfg-row:first-child { padding-top: 0; }
+  .cfg-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .cfg-lbl { font-size: 13px; color: var(--text); }
+  .cfg-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .ppl-ctrl { display: flex; align-items: center; gap: 10px; }
+  .ppl-btn { width: 30px; height: 30px; background: var(--bg); border: 1px solid var(--border); border-radius: 50%; color: var(--text); font-size: 18px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); transition: all 0.12s; }
+  .ppl-btn:hover { border-color: var(--amber); color: var(--amber); }
+  .ppl-val { font-size: 20px; font-weight: 500; min-width: 24px; text-align: center; color: var(--amber); font-family: var(--font-mono); }
+  .meta-row { display: flex; align-items: center; gap: 10px; }
+  .meta-input { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--amber); font-family: var(--font-mono); font-size: 24px; font-weight: 500; padding: 6px 12px; width: 90px; outline: none; text-align: center; transition: border-color .15s; }
+  .meta-input:focus { border-color: var(--amber); }
+  .meta-unit { font-size: 13px; color: var(--text-muted); }
+  .config-note { font-size: 11px; color: var(--text-muted); line-height: 1.6; padding: 12px 14px; background: var(--surface2); border-radius: 8px; margin-top: 10px; border: 1px solid var(--border); }
+
   ::-webkit-scrollbar { width:6px; height:6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -176,7 +315,7 @@
   <div class="header-top">
     <div class="logo">
       <h1>Mischa's Bakery</h1>
-      <span>fluxo de produção</span>
+      <span>fluxo de producao</span>
     </div>
     <div class="header-right">
       <div class="flavor-toggle">
@@ -184,18 +323,18 @@
         <button class="flavor-btn"        onclick="setFlavor('ddl')">Doce de Leite</button>
         <button class="flavor-btn"        onclick="setFlavor('mix')">Mix</button>
       </div>
-      <button class="icon-btn" onclick="clearTimes()">↺ Limpar tempos</button>
-      <span class="save-ind" id="save-ind">● salvo</span>
+      <button class="icon-btn" onclick="clearTimes()">&#8634; Limpar tempos</button>
+      <span class="save-ind" id="save-ind">&#9679; salvo</span>
     </div>
   </div>
   <div class="tab-nav">
     <button class="tab-btn active" onclick="setTab('fluxo')">Fluxo</button>
     <button class="tab-btn"        onclick="setTab('dashboard')">Dashboard</button>
-    <button class="tab-btn"        onclick="setTab('config')">Configurações</button>
+    <button class="tab-btn"        onclick="setTab('config')">Configuracoes</button>
   </div>
 </header>
 
-<!-- ── TAB: FLUXO ── -->
+<!-- TAB: FLUXO -->
 <div id="tab-fluxo" class="tab-content active">
 <div class="sw-wrap">
 <table class="sw">
@@ -205,13 +344,13 @@
       <td class="lane-th">
         <div class="lane-th-inner">
           <div class="lane-bar" style="background:var(--blue)"></div>
-          <div><div class="lane-name">Produção</div><div class="lane-resp">Beatriz + Enzo</div></div>
+          <div><div class="lane-name">Producao</div><div class="lane-resp">Beatriz + Enzo</div></div>
         </div>
       </td>
       <td class="lane-cell" style="background:rgba(42,110,160,0.04)">
-        <div class="cell-sub">Ciclo de produção — reinicia na etapa 2 após cada fornada</div>
+        <div class="cell-sub">Ciclo de producao — reinicia na etapa 2 apos cada fornada</div>
         <div class="flow" id="flow-prod"></div>
-        <div class="loop-note"><span class="loop-arrow">↩</span><span>reinicia etapa 2 → até completar todas as formas do dia</span></div>
+        <div class="loop-note"><span class="loop-arrow">&#8617;</span><span>reinicia etapa 2 &rarr; ate completar todas as formas do dia</span></div>
       </td>
     </tr>
     <tr class="lane-sep"><td colspan="2"></td></tr>
@@ -219,7 +358,7 @@
       <td class="lane-th">
         <div class="lane-th-inner">
           <div class="lane-bar" style="background:var(--green)"></div>
-          <div><div class="lane-name">Pós-Produção</div><div class="lane-resp">Theo</div></div>
+          <div><div class="lane-name">Pos-Producao</div><div class="lane-resp">Theo</div></div>
         </div>
       </td>
       <td class="lane-cell" style="background:rgba(74,140,34,0.04)">
@@ -232,7 +371,7 @@
       <td class="lane-th">
         <div class="lane-th-inner">
           <div class="lane-bar" style="background:var(--amber)"></div>
-          <div><div class="lane-name">Pré-Produção</div><div class="lane-resp">Theo</div></div>
+          <div><div class="lane-name">Pre-Producao</div><div class="lane-resp">Theo</div></div>
         </div>
       </td>
       <td class="lane-cell" style="background:rgba(184,110,26,0.04)">
@@ -245,49 +384,40 @@
 </div>
 </div>
 
-<!-- ── TAB: DASHBOARD ── -->
+<!-- TAB: DASHBOARD -->
 <div id="tab-dashboard" class="tab-content">
-<div class="dash-wrap">
-
-  <div class="dash-section">
-    <div class="section-title" style="color:var(--blue)">Produção — Beatriz + Enzo</div>
-    <div class="metric-grid" id="dm-prod"></div>
-    <div id="dm-prod-alert"></div>
-    <table class="breakdown" id="dt-prod"></table>
+<div class="dash-layout">
+  <!-- LEFT COLUMN -->
+  <div class="dash-main">
+    <div id="hero-card"></div>
+    <div class="dash-bottom-grid">
+      <div id="equipe-card"></div>
+      <div id="insight-card"></div>
+    </div>
   </div>
-
-  <div class="dash-section">
-    <div class="section-title" style="color:var(--green)">Pós-Produção — Theo</div>
-    <div class="metric-grid" id="dm-pos"></div>
-    <table class="breakdown" id="dt-pos"></table>
+  <!-- RIGHT COLUMN (sidebar) -->
+  <div class="dash-sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">Etapas do Dia</div>
+      <span class="sidebar-link" onclick="setTab('fluxo')">Ver fluxo &rarr;</span>
+    </div>
+    <div id="areas-list"></div>
+    <div id="turno-card"></div>
   </div>
-
-  <div class="dash-section">
-    <div class="section-title" style="color:var(--amber)">Pré-Produção — Theo</div>
-    <div class="metric-grid" id="dm-pre"></div>
-    <table class="breakdown" id="dt-pre"></table>
-  </div>
-
-  <div class="dash-section">
-    <div class="section-title">Turno estimado</div>
-    <div class="metric-grid" id="dm-turno"></div>
-    <div id="dm-gantt"></div>
-  </div>
-
 </div>
 </div>
 
-<!-- ── TAB: CONFIGURAÇÕES ── -->
+<!-- TAB: CONFIGURACOES -->
 <div id="tab-config" class="tab-content">
 <div class="config-wrap">
 
   <div class="config-section">
-    <div class="section-title">Meta de produção</div>
+    <div class="section-title">Meta de producao</div>
     <div class="config-card">
       <div class="cfg-row">
         <div>
           <div class="cfg-lbl">Formas por dia</div>
-          <div class="cfg-sub" id="cfg-derived">→ 2.400 unidades · 8 ciclos de forno</div>
+          <div class="cfg-sub" id="cfg-derived">&rarr; 2.400 unidades &middot; 8 ciclos de forno</div>
         </div>
         <div>
           <div class="meta-row">
@@ -297,34 +427,34 @@
         </div>
       </div>
       <div style="display:flex;gap:10px;align-items:center;margin-top:14px;">
-        <button class="icon-btn primary" onclick="saveDefault()">Definir como padrão</button>
+        <button class="icon-btn primary" onclick="saveDefault()">Definir como padrao</button>
         <span style="font-size:11px;color:var(--text-dim)" id="cfg-default-note"></span>
       </div>
     </div>
-    <div class="config-note">O padrão é salvo localmente e carregado ao abrir. Alterar o campo acima atualiza o Dashboard em tempo real, mas só vira padrão ao clicar no botão.</div>
+    <div class="config-note">O padrao e salvo localmente e carregado ao abrir. Alterar o campo acima atualiza o Dashboard em tempo real, mas so vira padrao ao clicar no botao.</div>
   </div>
 
   <div class="config-section">
-    <div class="section-title">Equipe disponível</div>
+    <div class="section-title">Equipe disponivel</div>
     <div class="config-card">
       <div class="cfg-row">
-        <div><div class="cfg-lbl">Produção</div><div class="cfg-sub">Beatriz + Enzo (padrão: 2)</div></div>
+        <div><div class="cfg-lbl">Producao</div><div class="cfg-sub">Beatriz + Enzo (padrao: 2)</div></div>
         <div class="ppl-ctrl">
-          <button class="ppl-btn" onclick="adjPpl('prod',-1)">−</button>
+          <button class="ppl-btn" onclick="adjPpl('prod',-1)">&#8722;</button>
           <span class="ppl-val" id="ppl-prod">2</span>
           <button class="ppl-btn" onclick="adjPpl('prod',+1)">+</button>
         </div>
       </div>
       <div class="cfg-row">
-        <div><div class="cfg-lbl">Pós + Pré-Produção</div><div class="cfg-sub">Theo e equipe — mesmas pessoas nas duas etapas (padrão: 1)</div></div>
+        <div><div class="cfg-lbl">Pos + Pre-Producao</div><div class="cfg-sub">Theo e equipe &mdash; mesmas pessoas nas duas etapas (padrao: 1)</div></div>
         <div class="ppl-ctrl">
-          <button class="ppl-btn" onclick="adjPpl('theo',-1)">−</button>
+          <button class="ppl-btn" onclick="adjPpl('theo',-1)">&#8722;</button>
           <span class="ppl-val" id="ppl-theo">1</span>
           <button class="ppl-btn" onclick="adjPpl('theo',+1)">+</button>
         </div>
       </div>
     </div>
-    <div class="config-note">O número de pessoas divide o tempo manual total da área — afeta "tempo por pessoa" no Dashboard. Processos automáticos (forno, batedeira, flowpack) não são afetados.</div>
+    <div class="config-note">O numero de pessoas divide o tempo manual total da area &mdash; afeta "tempo por pessoa" no Dashboard. Processos automaticos (forno, batedeira, flowpack) nao sao afetados.</div>
   </div>
 
 </div>
@@ -336,36 +466,36 @@
 // ═══════════════════════════
 const STEPS = {
   prod: [
-    { id:'pr0',  num:'0',  name:'Pré-aquecimento inicial', type:'auto', fixedLabel:'6 min', note:'Ligar o forno a 200°C quando estiver próximo de terminar o 1º ciclo de produção de massas', once:true },
-    { id:'pr1',  num:'1',  name:'Untar formas',            type:'manual', note:'Desmoldante em todas as formas do dia — feito uma única vez', once:true },
+    { id:'pr0',  num:'0',  name:'Pre-aquecimento inicial', type:'auto', fixedLabel:'6 min', note:'Ligar o forno a 200C quando estiver proximo de terminar o 1o ciclo de producao de massas', once:true },
+    { id:'pr1',  num:'1',  name:'Untar formas',            type:'manual', note:'Desmoldante em todas as formas do dia — feito uma unica vez', once:true },
     {
-      isGroup: true, id:'g-massas', name:'Produção de Massas',
+      isGroup: true, id:'g-massas', name:'Producao de Massas',
       note:'Repete a cada ciclo — deve caber nos 22 min de assamento',
       steps: [
-        { id:'pr2',   num:'2',  name:'Porcionamento',         type:'manual', note:'Início do ciclo', perCiclo:true },
-        { id:'pr3',   num:'3',  name:'Ciclo de batedeira',    type:'auto',   note:'Automático — roda em paralelo', perCiclo:true, parallel:true },
-        { id:'pr4',   num:'4',  name:'Pesagem nas formas',    type:'manual', note:'5 formas por ciclo', perCiclo:true },
-        { id:'pr4b',  num:'4b', name:'Topping DDL',           type:'manual', note:'Listras de DDL + palito. ~2 min/forma', ddlOnly:true, perCiclo:true, fixed:10 },
-        { id:'pr-rh', num:'↺',  name:'Re-pré-aquecimento',   type:'auto',   fixedLabel:'2 min', note:'A partir do 2º ciclo — paralelo, forno reaquece sozinho', perCiclo:true, parallel:true }
+        { id:'pr2',   num:'2',  name:'Porcionamento',       type:'manual', note:'Inicio do ciclo', perCiclo:true },
+        { id:'pr3',   num:'3',  name:'Ciclo de batedeira',  type:'auto',   note:'Automatico — roda em paralelo', perCiclo:true, parallel:true },
+        { id:'pr4',   num:'4',  name:'Pesagem nas formas',  type:'manual', note:'5 formas por ciclo', perCiclo:true },
+        { id:'pr4b',  num:'4b', name:'Topping DDL',         type:'manual', note:'Listras de DDL + palito. ~2 min/forma', ddlOnly:true, perCiclo:true, fixed:10 },
+        { id:'pr-rh', num:'&circlearrowleft;', name:'Re-pre-aquecimento', type:'auto', fixedLabel:'2 min', note:'A partir do 2o ciclo — paralelo, forno reaquece sozinho', perCiclo:true, parallel:true }
       ]
     },
-    { id:'pr5',  num:'5',  name:'Assamento',           type:'auto',   fixedLabel:'30 min/ciclo', note:'22 min de forno a 160°C + 8 min para colocar/tirar formas e organizar o carrinho', perCiclo:true, parallel:true, oven:true },
-    { id:'pr6',  num:'6',  name:'Resfriamento',        type:'auto',   fixedLabel:'120–180 min',  note:'Carrinho esqueleto — resfria sozinho, não bloqueia equipe', once:true, parallel:true },
-    { id:'pr7',  num:'7',  name:'Limpeza da produção', type:'manual', note:'Inicia assim que o último lote for transferido para o carrinho esqueleto — não precisa aguardar o resfriamento completo', once:true }
+    { id:'pr5',  num:'5',  name:'Assamento',           type:'auto',   fixedLabel:'30 min/ciclo', note:'22 min de forno a 160C + 8 min para colocar/tirar formas e organizar o carrinho', perCiclo:true, parallel:true, oven:true },
+    { id:'pr6',  num:'6',  name:'Resfriamento',        type:'auto',   fixedLabel:'120-180 min',  note:'Carrinho esqueleto — resfria sozinho, nao bloqueia equipe', once:true, parallel:true },
+    { id:'pr7',  num:'7',  name:'Limpeza da producao', type:'manual', note:'Inicia assim que o ultimo lote for transferido para o carrinho esqueleto — nao precisa aguardar o resfriamento completo', once:true }
   ],
   pos: [
     { id:'po1', num:'1', name:'Cortar na forma',       type:'manual', note:'2,5 min/forma · 12,5 min por ciclo', perCiclo:true, defaultVal:12.5 },
     { id:'po2', num:'2', name:'Desenformar',           type:'manual', note:'2,5 min/forma · 12,5 min por ciclo', perCiclo:true, defaultVal:12.5 },
-    { id:'po3', num:'3', name:'Configurar datador',    type:'manual', note:'Data de fabricação, validade e lote', once:true },
-    { id:'po4', num:'4', name:'Embalar flowpack',      type:'auto',   note:'Automático. 18 un → caixa display ao sair', parallel:true },
+    { id:'po3', num:'3', name:'Configurar datador',    type:'manual', note:'Data de fabricacao, validade e lote', once:true },
+    { id:'po4', num:'4', name:'Embalar flowpack',      type:'auto',   note:'Automatico. 18 un → caixa display ao sair', parallel:true },
     { id:'po5', num:'5', name:'Montar caixas display', type:'manual', note:'18 un/caixa · ~5 seg/caixa', perCiclo:true },
     { id:'po6', num:'6', name:'Caixas de embarque',    type:'manual', note:'16 displays = 288 un/caixa embarque', perCiclo:true },
     { id:'po7', num:'7', name:'Higienizar flowpack',   type:'manual', note:null, once:true },
-    { id:'po8', num:'8', name:'Lavar formas',          type:'manual', note:'Formas da produção do dia anterior', once:true },
-    { id:'po9', num:'9', name:'Limpeza pós-produção',  type:'manual', note:'Utensílios e ambiente', once:true }
+    { id:'po8', num:'8', name:'Lavar formas',          type:'manual', note:'Formas da producao do dia anterior', once:true },
+    { id:'po9', num:'9', name:'Limpeza pos-producao',  type:'manual', note:'Utensilios e ambiente', once:true }
   ],
   pre: [
-    { id:'pre1', num:'P1', name:'Encher baldes',             type:'manual', note:'Açúcar, ovo em pó, sorbitol, farinha (peneirar), chocolate 50%' },
+    { id:'pre1', num:'P1', name:'Encher baldes',             type:'manual', note:'Acucar, ovo em po, sorbitol, farinha (peneirar), chocolate 50%' },
     { id:'pre2', num:'P2', name:'Encher sacos de confeitar', type:'manual', note:'Doce de leite para topping', ddlOnly:true }
   ]
 };
@@ -389,7 +519,7 @@ function persist() {
   try {
     localStorage.setItem(KEY, JSON.stringify(S));
     const el = document.getElementById('save-ind');
-    el.textContent = '● salvo'; el.classList.add('ok');
+    el.textContent = '\u25cf salvo'; el.classList.add('ok');
     setTimeout(()=>el.classList.remove('ok'), 1800);
   } catch(e){}
 }
@@ -423,11 +553,11 @@ function showDDL() { return S.flavor==='ddl'||S.flavor==='mix'; }
 // ═══════════════════════════
 function gt(id) { const v=parseFloat(S.times[id]); return isNaN(v)?null:v; }
 function fmtM(m) {
-  if(m===null) return '—';
+  if(m===null) return '\u2014';
   m = Math.round(m);
   if(m<60) return m+' min';
   const h=Math.floor(m/60), mm=m%60;
-  return mm>0 ? `${h}h ${String(mm).padStart(2,'0')}min` : `${h}h`;
+  return mm>0 ? h+'h '+String(mm).padStart(2,'0')+'min' : h+'h';
 }
 function onTime(el) {
   const v = el.value.trim();
@@ -449,36 +579,24 @@ function buildCard(s) {
   if(s.ddlOnly && !showDDL()) return null;
   const storedVal = S.times[s.id];
   const displayVal = storedVal != null ? String(storedVal) : (s.defaultVal != null ? String(s.defaultVal) : '');
-  let badges = `<span class="badge b-${s.type}">${s.type==='auto'?'automático':'manual'}</span>`;
-  if(s.ddlOnly) badges+=`<span class="badge b-ddl">DDL</span>`;
-  if(s.parallel) badges+=`<span class="badge b-par">↕ paralelo</span>`;
-  const note = s.note ? `<div class="card-note">${s.note}</div>` : '';
+  let badges = '<span class="badge b-'+s.type+'">'+(s.type==='auto'?'automatico':'manual')+'</span>';
+  if(s.ddlOnly) badges+='<span class="badge b-ddl">DDL</span>';
+  if(s.parallel) badges+='<span class="badge b-par">\u2195 paralelo</span>';
+  const note = s.note ? '<div class="card-note">'+s.note+'</div>' : '';
   let tr;
   if(s.fixedLabel) {
-    tr=`<div class="time-row"><span class="time-lbl">tempo</span><span class="time-fixed">${s.fixedLabel}</span></div>`;
+    tr='<div class="time-row"><span class="time-lbl">tempo</span><span class="time-fixed">'+s.fixedLabel+'</span></div>';
   } else if(s.fixed) {
-    tr=`<div class="time-row"><span class="time-lbl">tempo</span><span class="time-fixed">${s.fixed} min/ciclo</span></div>`;
+    tr='<div class="time-row"><span class="time-lbl">tempo</span><span class="time-fixed">'+s.fixed+' min/ciclo</span></div>';
   } else {
-    const ctx = s.once ? '1×/dia' : 'por ciclo — 5 formas';
-    tr=`<div style="border-top:1px solid var(--border);padding-top:6px;">
-      <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
-        <span class="time-lbl">tempo</span>
-        <input class="time-in" type="number" placeholder="—" value="${displayVal}" data-id="${s.id}" oninput="onTime(this)" min="0" step="0.5">
-        <span style="font-size:10px;color:var(--text-dim)">min</span>
-      </div>
-      <div style="font-size:9px;color:var(--text-dim);letter-spacing:0.05em">${ctx}</div>
-    </div>`;
+    const ctx = s.once ? '1\u00d7/dia' : 'por ciclo \u2014 5 formas';
+    tr='<div style="border-top:1px solid var(--border);padding-top:6px;"><div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;"><span class="time-lbl">tempo</span><input class="time-in" type="number" placeholder="\u2014" value="'+displayVal+'" data-id="'+s.id+'" oninput="onTime(this)" min="0" step="0.5"><span style="font-size:10px;color:var(--text-dim)">min</span></div><div style="font-size:9px;color:var(--text-dim);letter-spacing:0.05em">'+ctx+'</div></div>';
   }
-  return `<div class="card${s.ddlOnly?' ddl-card':''}">
-    <div class="card-num">ETAPA ${s.num}</div>
-    <div class="card-name">${s.name}</div>
-    <div class="badges">${badges}</div>${note}${tr}
-  </div>`;
+  return '<div class="card'+(s.ddlOnly?' ddl-card':'')+'"><div class="card-num">ETAPA '+s.num+'</div><div class="card-name">'+s.name+'</div><div class="badges">'+badges+'</div>'+note+tr+'</div>';
 }
 
 function buildGroup(g) {
   const ddl = showDDL();
-  // calc manual time of group steps
   let manualSum = 0, allFilled = true;
   g.steps.forEach(s => {
     if(s.ddlOnly && !ddl) return;
@@ -487,32 +605,24 @@ function buildGroup(g) {
     const t = gt(s.id);
     if(t===null) allFilled=false; else manualSum+=t;
   });
-  const OVEN_WINDOW = 30; // min — ciclo completo (22 min forno + 8 min manuseio)
+  const OVEN_WINDOW = 30;
   let statusCls='', badgeHtml='';
   if(!allFilled) {
     statusCls='';
-    badgeHtml=`<span class="group-badge gray">preencha os tempos</span>`;
+    badgeHtml='<span class="group-badge gray">preencha os tempos</span>';
   } else if(manualSum > OVEN_WINDOW) {
     statusCls='bottleneck';
-    badgeHtml=`<span class="group-badge red">⚠ gargalo — ${Math.round(manualSum)} min &gt; ${OVEN_WINDOW} min janela</span>`;
+    badgeHtml='<span class="group-badge red">\u26a0 gargalo \u2014 '+Math.round(manualSum)+' min &gt; '+OVEN_WINDOW+' min janela</span>';
   } else {
     statusCls='ok-pace';
-    badgeHtml=`<span class="group-badge green">✓ ${Math.round(manualSum)} min — cabe na janela de ${OVEN_WINDOW} min</span>`;
+    badgeHtml='<span class="group-badge green">\u2713 '+Math.round(manualSum)+' min \u2014 cabe na janela de '+OVEN_WINDOW+' min</span>';
   }
   const cards = g.steps.map(s => {
     const h = buildCard(s);
-    return h ? `<div class="step-wrap">${h}<span class="arrow">→</span></div>` : '';
+    return h ? '<div class="step-wrap">'+h+'<span class="arrow">&rarr;</span></div>' : '';
   }).filter(Boolean);
-  // remove last arrow
   const joined = cards.join('');
-  // wrap in group
-  return `<div class="group-wrap ${statusCls}">
-    <div class="group-header">
-      <span class="group-name">${g.name}</span>
-      ${badgeHtml}
-    </div>
-    <div class="group-flow">${joined.replace(/(<span class="arrow">→<\/span>)(?![\s\S]*<span class="arrow">)/, '')}</div>
-  </div>`;
+  return '<div class="group-wrap '+statusCls+'"><div class="group-header"><span class="group-name">'+g.name+'</span>'+badgeHtml+'</div><div class="group-flow">'+joined.replace(/(<span class="arrow">&rarr;<\/span>)(?![\s\S]*<span class="arrow">)/, '')+'</div></div>';
 }
 
 function renderFlow(id, steps) {
@@ -520,10 +630,10 @@ function renderFlow(id, steps) {
   const parts = steps.map(item => {
     if(item.isGroup) {
       const h = buildGroup(item);
-      return h ? `<div class="step-wrap" style="align-items:flex-start">${h}<span class="arrow" style="margin-top:60px">→</span></div>` : '';
+      return h ? '<div class="step-wrap" style="align-items:flex-start">'+h+'<span class="arrow" style="margin-top:60px">&rarr;</span></div>' : '';
     }
     const h = buildCard(item);
-    return h ? `<div class="step-wrap">${h}<span class="arrow">→</span></div>` : '';
+    return h ? '<div class="step-wrap">'+h+'<span class="arrow">&rarr;</span></div>' : '';
   }).filter(Boolean);
   el.innerHTML = parts.join('');
   const arrows = el.querySelectorAll(':scope > .step-wrap > .arrow');
@@ -541,22 +651,14 @@ function renderFluxo() {
 function calc() {
   const formas=S.formas, ciclos=Math.ceil(formas/5), un=formas*60;
   const ddl=showDDL();
-
-  // FORNO: 22 min forno + 8 min manuseio = 30 min/ciclo · pré-aquec paralelo
   const fornoTotal = 30 * ciclos;
-
-  // flatten prod steps (handle groups)
   const flatProd = [];
   STEPS.prod.forEach(item => { if(item.isGroup) flatProd.push(...item.steps); else flatProd.push(item); });
-
-  // PRODUÇÃO manual
   const t1=gt('pr1'), t2=gt('pr2'), t4=gt('pr4'), t7=gt('pr7');
   const ddlMin = ddl?10:0;
-
   const manualOnceProd  = (t1??0)+(t7??0);
   const manualCicloProd = (t2??0)+(t4??0)+ddlMin;
   const manualTotalProd = manualOnceProd + manualCicloProd*ciclos;
-
   const prepPerCiclo = (t2!==null&&t4!==null) ? t2+t4+ddlMin : null;
   let wallClock=null, bottleneck='forno';
   if(prepPerCiclo!==null) {
@@ -564,11 +666,8 @@ function calc() {
     wallClock=fornoTotal+overflow+(t7??0);
     if(prepPerCiclo>30) bottleneck='manual';
   }
-
   const filledProd=flatProd.filter(s=>(!s.ddlOnly||ddl)&&(s.fixedLabel||s.fixed||gt(s.id)!==null)).length;
   const totalProd =flatProd.filter(s=>!s.ddlOnly||ddl).length;
-
-  // PÓS — use defaultVal as fallback when no stored time
   function gtPos(s) { const v=parseFloat(S.times[s.id]); return !isNaN(v)?v:(s.defaultVal!=null?s.defaultVal:null); }
   let manualPos=0, posOk=true;
   STEPS.pos.forEach(s=>{
@@ -578,14 +677,11 @@ function calc() {
     if(t===null) { posOk=false; return; }
     manualPos += s.perCiclo ? t*ciclos : t;
   });
-  const turnoPos = posOk ? Math.ceil(manualPos/( S.ppl.theo||1)) : null;
-
-  // PRÉ manual
+  const turnoPos = posOk ? Math.ceil(manualPos/(S.ppl.theo||1)) : null;
   let manualPre=0, preOk=true;
   STEPS.pre.forEach(s=>{ if(s.ddlOnly&&!ddl) return; const t=gt(s.id); if(t===null) preOk=false; manualPre+=(t??0); });
   const turnoPre = preOk ? Math.ceil(manualPre/(S.ppl.theo||1)) : null;
   const turnoTheo = (turnoPos!==null&&turnoPre!==null) ? turnoPos+turnoPre : null;
-
   return {formas,ciclos,un,ddl,fornoTotal,manualTotalProd,wallClock,bottleneck,prepPerCiclo,
           filledProd,totalProd,manualPos,turnoPos,manualPre,turnoPre,turnoTheo,posOk,preOk,
           pplTheo: S.ppl.theo||1};
@@ -594,90 +690,208 @@ function calc() {
 // ═══════════════════════════
 //  DASHBOARD RENDER
 // ═══════════════════════════
+function toggleArea(id) {
+  const el = document.getElementById('area-'+id);
+  if(el) el.classList.toggle('expanded');
+}
+
 function renderDash() {
-  const d=calc();
-  const pp=d.filledProd<d.totalProd;
+  const d = calc();
 
-  // PROD metrics
-  document.getElementById('dm-prod').innerHTML=`
-    <div class="mc a-blue"><div class="mc-lbl">Ciclos de forno</div><div class="mc-val">${d.ciclos} <small>ciclos</small></div><div class="mc-note">${d.formas} formas · ${d.un.toLocaleString('pt-BR')} un</div></div>
-    <div class="mc a-amber"><div class="mc-lbl">Tempo total forno</div><div class="mc-val">${fmtM(d.fornoTotal)}</div><div class="mc-note">30 min × ${d.ciclos} ciclos (22 forno + 8 manuseio)</div></div>
-    <div class="mc a-green"><div class="mc-lbl">Manual total produção</div><div class="mc-val">${pp?'≥':''} ${fmtM(d.manualTotalProd)}</div><div class="mc-note">${d.filledProd}/${d.totalProd} etapas · ${S.ppl.prod} pessoa${S.ppl.prod>1?'s':''} → ${fmtM(Math.ceil(d.manualTotalProd/S.ppl.prod))}/pessoa</div></div>
-    <div class="mc${d.wallClock!==null?' a-amber':''}"><div class="mc-lbl">Duração estimada</div><div class="mc-val">${d.wallClock!==null?fmtM(d.wallClock):'—'}</div><div class="mc-note">${d.bottleneck==='forno'?'gargalo: forno':'gargalo: preparo manual'}</div></div>`;
+  // ── HERO: cycle dots ──
+  const cyclesDots = Array.from({length: d.ciclos}, (_,i) =>
+    '<span class="cycle-dot'+(i===0?' active':'')+'" title="Ciclo '+(i+1)+'">C'+(i+1)+'</span>'
+  ).join('');
 
-  // alert
-  let al='';
-  if(pp) al=`<div class="dash-alert info">ℹ &nbsp;${d.totalProd-d.filledProd} etapa(s) sem tempo. Valores calculados com 0 nesses campos. Preencha na aba Fluxo.</div>`;
-  else if(d.prepPerCiclo!==null&&d.prepPerCiclo>30) al=`<div class="dash-alert warn">⚠ &nbsp;Preparo manual por ciclo (${Math.round(d.prepPerCiclo)} min) > ciclo de forno (30 min). O preparo é o gargalo — o forno espera. Considere mais uma pessoa.</div>`;
-  else if(d.prepPerCiclo!==null) al=`<div class="dash-alert ok">✓ &nbsp;Preparo manual por ciclo (${Math.round(d.prepPerCiclo)} min) cabe dentro do ciclo de forno (30 min). Forno é o gargalo — equipe não fica parada.</div>`;
-  document.getElementById('dm-prod-alert').innerHTML=al;
-
-  // PROD table
-  let rows='';
-  STEPS.prod.forEach(s=>{
-    if(s.ddlOnly&&!d.ddl) return;
-    let tv,tc='t-time';
-    if(s.fixedLabel) tv=s.fixedLabel;
-    else if(s.fixed) { const tot=s.fixed*d.ciclos; tv=`${s.fixed} min/ciclo → ${tot} min total`; }
-    else { const t=gt(s.id); if(t===null){tv='—';tc='t-time missing';}else if(s.once){tv=`${t} min (1×)`;}else if(s.perCiclo){tv=`${t} min/ciclo → ${Math.round(t*d.ciclos)} min`;}else{tv=t+' min';} }
-    rows+=`<tr><td>${s.name}${s.ddlOnly?` <span style="color:var(--purple);font-size:10px">(DDL)</span>`:''}</td><td><span class="badge b-${s.type}">${s.type==='auto'?'auto':'manual'}</span>${s.parallel?`<span class="t-par">↕ paralelo</span>`:''}</td><td class="${tc}">${tv}</td></tr>`;
-  });
-  document.getElementById('dt-prod').innerHTML=`<thead><tr><th>Etapa</th><th>Tipo</th><th style="text-align:right">Tempo</th></tr></thead><tbody>${rows}</tbody>`;
-
-  // PÓS metrics
-  document.getElementById('dm-pos').innerHTML=`
-    <div class="mc a-green"><div class="mc-lbl">Manual total</div><div class="mc-val">${!d.posOk?'≥':''} ${fmtM(d.manualPos)}</div><div class="mc-note">${d.pplTheo} pessoa${d.pplTheo>1?'s':''} → ${fmtM(d.turnoPos)}</div></div>
-    <div class="mc"><div class="mc-lbl">Flowpack</div><div class="mc-val" style="font-size:14px;margin-top:4px">paralelo</div><div class="mc-note">não bloqueia o operador</div></div>`;
-  let posR='';
-  STEPS.pos.forEach(s=>{
-    let tv, tc='t-time';
-    if(s.type==='auto'||s.parallel) { tv='automático ↕ paralelo'; tc='t-time'; }
-    else if(s.fixed) { tv=`${s.fixed} min/ciclo → ${Math.round(s.fixed*d.ciclos)} min total`; }
-    else {
-      const stored=parseFloat(S.times[s.id]);
-      const t=!isNaN(stored)?stored:(s.defaultVal!=null?s.defaultVal:null);
-      const isDefault = isNaN(stored) && s.defaultVal!=null;
-      if(t===null) { tv='—'; tc='t-time missing'; }
-      else if(s.once) { tv=`${t} min (1×/dia)${isDefault?' *':''}`; }
-      else if(s.perCiclo) { tv=`${t} min/ciclo → ${Math.round(t*d.ciclos)} min total${isDefault?' *':''}`; }
-      else { tv=t+' min'; }
+  // ── HERO: mini bar chart SVG ──
+  const barW=16, barGap=5, svgH=72;
+  const manualPC = d.prepPerCiclo !== null ? d.prepPerCiclo : 0;
+  const fornoPC  = 30;
+  const maxVal   = Math.max(manualPC, fornoPC, 1);
+  const barMaxH  = 50;
+  const totalBars = Math.min(d.ciclos, 14);
+  let svgBars = '';
+  for(let i=0; i<totalBars; i++) {
+    const x = i*(barW+barGap);
+    const fH = Math.round((fornoPC/maxVal)*barMaxH);
+    const mH = Math.round((manualPC/maxVal)*barMaxH);
+    const fY = svgH - fH - 14;
+    const mY = svgH - mH - 14;
+    svgBars += '<rect x="'+x+'" y="'+fY+'" width="'+barW+'" height="'+fH+'" rx="3" fill="rgba(42,110,160,0.12)"/>';
+    const mColor = manualPC > 30 ? 'rgba(184,110,26,0.65)' : 'rgba(74,140,34,0.55)';
+    if(manualPC > 0) {
+      svgBars += '<rect x="'+(x+2)+'" y="'+(mY+2)+'" width="'+(barW-4)+'" height="'+Math.max(mH-2,1)+'" rx="2" fill="'+mColor+'"/>';
     }
-    posR+=`<tr><td>${s.name}</td><td><span class="badge b-${s.type}">${s.type==='auto'?'auto':'manual'}</span>${s.parallel?`<span class="t-par">↕ paralelo</span>`:''}</td><td class="${tc}">${tv}</td></tr>`;
-  });
-  document.getElementById('dt-pos').innerHTML=`<thead><tr><th>Etapa</th><th>Tipo</th><th style="text-align:right">Tempo</th></tr></thead><tbody>${posR}</tbody>`;
-
-  // PRÉ metrics
-  document.getElementById('dm-pre').innerHTML=`
-    <div class="mc a-amber"><div class="mc-lbl">Manual total</div><div class="mc-val">${!d.preOk?'≥':''} ${fmtM(d.manualPre)}</div><div class="mc-note">${d.pplTheo} pessoa${d.pplTheo>1?'s':''} → ${fmtM(d.turnoPre)}</div></div>`;
-  let preR='';
-  STEPS.pre.forEach(s=>{
-    if(s.ddlOnly&&!d.ddl) return;
-    const t=gt(s.id); let tv=t!==null?t+' min':'—',tc=t!==null?'t-time':'t-time missing';
-    preR+=`<tr><td>${s.name}${s.ddlOnly?` <span style="color:var(--purple);font-size:10px">(DDL)</span>`:''}</td><td><span class="badge b-manual">manual</span></td><td class="${tc}">${tv}</td></tr>`;
-  });
-  document.getElementById('dt-pre').innerHTML=`<thead><tr><th>Etapa</th><th>Tipo</th><th style="text-align:right">Tempo</th></tr></thead><tbody>${preR}</tbody>`;
-
-  // TURNO metrics
-  document.getElementById('dm-turno').innerHTML=`
-    <div class="mc a-blue"><div class="mc-lbl">Produção</div><div class="mc-val">${d.wallClock!==null?fmtM(d.wallClock):'—'}</div><div class="mc-note">wall clock · paceado pelo forno</div></div>
-    <div class="mc a-green"><div class="mc-lbl">Pós-Produção</div><div class="mc-val">${d.turnoPos!==null?fmtM(d.turnoPos):'—'}</div><div class="mc-note">÷ ${d.pplTheo} pessoa${d.pplTheo>1?'s':''}</div></div>
-    <div class="mc a-amber"><div class="mc-lbl">Pré-Produção</div><div class="mc-val">${d.turnoPre!==null?fmtM(d.turnoPre):'—'}</div><div class="mc-note">÷ ${d.pplTheo} pessoa${d.pplTheo>1?'s':''}</div></div>
-    <div class="mc a-amber"><div class="mc-lbl">Total Theo</div><div class="mc-val">${d.turnoTheo!==null?fmtM(d.turnoTheo):'—'}</div><div class="mc-note">pós + pré</div></div>`;
-
-  // GANTT
-  if(d.wallClock!==null && d.turnoPos!==null && d.turnoPre!==null) {
-    const total=Math.max(d.turnoTheo, d.wallClock);
-    const p=v=>(v/total*100).toFixed(1)+'%';
-    document.getElementById('dm-gantt').innerHTML=`<div class="gantt-wrap">
-      <div style="font-size:10px;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px">Linha do tempo — processos em paralelo</div>
-      <div class="gantt-row"><div class="gantt-lbl">Produção</div><div class="gantt-track"><div class="gbar prod" style="left:0;width:${p(d.wallClock)}">${d.wallClock>=40?fmtM(d.wallClock):''}</div></div></div>
-      <div class="gantt-row"><div class="gantt-lbl">Theo — pós</div><div class="gantt-track"><div class="gbar pos" style="left:0;width:${p(d.turnoPos)}">${d.turnoPos>=30?fmtM(d.turnoPos):''}</div></div></div>
-      <div class="gantt-row"><div class="gantt-lbl">Theo — pré</div><div class="gantt-track"><div class="gbar pre" style="left:${p(d.turnoPos)};width:${p(d.turnoPre)}">${d.turnoPre>=30?fmtM(d.turnoPre):''}</div></div></div>
-      <div class="gantt-axis"><span>0</span><span>${fmtM(Math.round(total/2))}</span><span>${fmtM(total)}</span></div>
-    </div>`;
-  } else {
-    document.getElementById('dm-gantt').innerHTML=`<div class="notice">Preencha os tempos das etapas na aba Fluxo para ver a linha do tempo estimada.</div>`;
   }
+  const svgW = Math.max(totalBars*(barW+barGap)-barGap, 1);
+  const heroChart = d.prepPerCiclo !== null
+    ? '<div class="hero-chart"><svg viewBox="0 0 '+svgW+' '+svgH+'" preserveAspectRatio="xMinYMid meet" style="height:72px;width:100%;max-width:'+(svgW*2)+'px">'+svgBars+'</svg></div>'
+    : '';
+
+  const heroStatus = d.wallClock !== null
+    ? (d.bottleneck === 'forno'
+        ? '<span class="hero-badge ok">\u2713 gargalo: forno</span>'
+        : '<span class="hero-badge warn">\u26a0 gargalo: preparo manual</span>')
+    : '<span class="hero-badge info">\ud83d\udcdd preencha os tempos</span>';
+
+  document.getElementById('hero-card').innerHTML =
+    '<div class="production-hero">'
+    + '<div class="hero-top">'
+    +   '<div class="hero-title">\ud83d\udcca Produ\u00e7\u00e3o</div>'
+    +   '<div class="hero-formas-row"><input type="number" value="'+d.formas+'" min="1" max="200" oninput="onHeroFormas(this)"><span>formas</span></div>'
+    + '</div>'
+    + '<div class="hero-kpi-row">'
+    +   '<div><div class="hero-value">'+(d.wallClock !== null ? fmtM(d.wallClock) : '\u2014')+'</div>'
+    +   '<div class="hero-sub">'+d.formas+' formas &middot; '+d.ciclos+' ciclos &middot; '+d.un.toLocaleString('pt-BR')+' un</div></div>'
+    +   '<div class="hero-kpi-meta">'+heroStatus+'</div>'
+    + '</div>'
+    + heroChart
+    + '<div class="cycle-indicators">'+cyclesDots+'</div>'
+    + '</div>';
+
+  // ── EQUIPE CARD ──
+  document.getElementById('equipe-card').innerHTML =
+    '<div class="connect-card">'
+    + '<div class="connect-title">Equipe Dispon\u00edvel</div>'
+    + '<div class="connect-person">'
+    +   '<div class="avatar blue">B</div>'
+    +   '<div class="connect-info"><div class="connect-name">Beatriz + Enzo</div><span class="connect-badge blue">Produ\u00e7\u00e3o</span></div>'
+    +   '<div class="ppl-stepper"><button class="ppl-btn-sm" onclick="adjPpl(\'prod\',-1)">\u2212</button><span class="ppl-val-sm" id="ppl-prod-d">'+(S.ppl.prod||2)+'</span><button class="ppl-btn-sm" onclick="adjPpl(\'prod\',+1)">+</button></div>'
+    + '</div>'
+    + '<div class="connect-person">'
+    +   '<div class="avatar amber">T</div>'
+    +   '<div class="connect-info"><div class="connect-name">Theo</div><span class="connect-badge amber">P\u00f3s + Pr\u00e9</span></div>'
+    +   '<div class="ppl-stepper"><button class="ppl-btn-sm" onclick="adjPpl(\'theo\',-1)">\u2212</button><span class="ppl-val-sm" id="ppl-theo-d">'+(S.ppl.theo||1)+'</span><button class="ppl-btn-sm" onclick="adjPpl(\'theo\',+1)">+</button></div>'
+    + '</div>'
+    + '</div>';
+
+  // ── INSIGHT CARD ──
+  let insightMsg, insightBtn, insightAction;
+  if(d.prepPerCiclo !== null && d.bottleneck === 'manual') {
+    insightMsg = '\u26a0 Preparo manual excede o ciclo de forno. Considere mais uma pessoa.';
+    insightBtn = 'Ajustar equipe \u2192';
+    insightAction = "setTab('config')";
+  } else if(d.wallClock !== null) {
+    insightMsg = '\u2713 Seu fluxo cabe dentro do ciclo de forno. Tudo no ritmo.';
+    insightBtn = 'Ver fluxo \u2192';
+    insightAction = "setTab('fluxo')";
+  } else {
+    insightMsg = '\ud83d\udcdd Preencha os tempos na aba Fluxo para ver os c\u00e1lculos.';
+    insightBtn = 'Ir para Fluxo \u2192';
+    insightAction = "setTab('fluxo')";
+  }
+  document.getElementById('insight-card').innerHTML =
+    '<div class="insight-card"><div class="insight-content">'
+    + '<div class="insight-label">Diagn\u00f3stico</div>'
+    + '<div class="insight-msg">'+insightMsg+'</div>'
+    + '<button class="insight-btn" onclick="'+insightAction+'">'+insightBtn+'</button>'
+    + '</div></div>';
+
+  // ── AREAS LIST ──
+  function bkRows(steps) {
+    let rows = '';
+    steps.forEach(s => {
+      if(s.isGroup) { rows += bkRows(s.steps); return; }
+      if(s.ddlOnly && !d.ddl) return;
+      let tv, isMissing = false;
+      if(s.fixedLabel) { tv = s.fixedLabel; }
+      else if(s.fixed) { tv = s.fixed+' min/ciclo \u2192 '+(s.fixed*d.ciclos)+' min'; }
+      else {
+        const stored = parseFloat(S.times[s.id]);
+        const t = !isNaN(stored) ? stored : (s.defaultVal != null ? s.defaultVal : null);
+        if(t === null) { tv = '\u2014'; isMissing = true; }
+        else if(s.once) { tv = t+' min (1\u00d7)'; }
+        else if(s.perCiclo) { tv = t+' min/ciclo \u2192 '+Math.round(t*d.ciclos)+' min'; }
+        else { tv = t+' min'; }
+      }
+      const par = s.parallel ? ' <span style="color:var(--purple);font-size:9px">\u2195</span>' : '';
+      rows += '<tr><td class="bk-name">'+s.name+par+'</td><td class="bk-time'+(isMissing?' missing':'')+'">'+tv+'</td></tr>';
+    });
+    return rows;
+  }
+
+  const areas = [
+    {
+      id: 'prod', iconCls: 'blue', icon: '\ud83d\udd35',
+      name: 'Produ\u00e7\u00e3o',
+      meta: 'Beatriz + Enzo &middot; gargalo: '+d.bottleneck,
+      value: d.wallClock !== null ? fmtM(d.wallClock) : '\u2014',
+      badge: d.ciclos+' ciclos', badgeCls: 'blue',
+      tags: ['Manual: '+fmtM(d.manualTotalProd), 'Forno: '+fmtM(d.fornoTotal)],
+      rows: bkRows(STEPS.prod)
+    },
+    {
+      id: 'pos', iconCls: 'green', icon: '\ud83d\udfe2',
+      name: 'P\u00f3s-Produ\u00e7\u00e3o',
+      meta: 'Theo &middot; '+fmtM(d.manualPos)+' manual',
+      value: d.turnoPos !== null ? fmtM(d.turnoPos) : '\u2014',
+      badge: d.turnoPos !== null ? fmtM(d.turnoPos) : 'incompleto', badgeCls: 'green',
+      tags: ['\u00f7 '+d.pplTheo+' pessoa'+(d.pplTheo>1?'s':'')],
+      rows: bkRows(STEPS.pos)
+    },
+    {
+      id: 'pre', iconCls: 'amber', icon: '\ud83d\udfe0',
+      name: 'Pr\u00e9-Produ\u00e7\u00e3o',
+      meta: 'Theo &middot; '+fmtM(d.manualPre)+' manual',
+      value: d.turnoPre !== null ? fmtM(d.turnoPre) : '\u2014',
+      badge: d.turnoPre !== null ? fmtM(d.turnoPre) : 'incompleto', badgeCls: 'amber',
+      tags: ['\u00f7 '+d.pplTheo+' pessoa'+(d.pplTheo>1?'s':'')],
+      rows: bkRows(STEPS.pre)
+    }
+  ];
+
+  document.getElementById('areas-list').innerHTML = areas.map(a =>
+    '<div class="area-card" id="area-'+a.id+'" onclick="toggleArea(\''+a.id+'\')">'
+    + '<div class="area-card-top">'
+    +   '<div class="area-icon '+a.iconCls+'">'+a.icon+'</div>'
+    +   '<div class="area-info">'
+    +     '<div class="area-name">'+a.name+'</div>'
+    +     '<div class="area-meta">'+a.meta+'</div>'
+    +     '<div class="area-tags">'+a.tags.map(t=>'<span class="area-tag">'+t+'</span>').join('')+'</div>'
+    +   '</div>'
+    +   '<div class="area-right"><div class="area-value">'+a.value+'</div><span class="status-badge '+a.badgeCls+'">'+a.badge+'</span></div>'
+    +   '<span class="area-chevron">\u2228</span>'
+    + '</div>'
+    + '<div class="area-breakdown"><table class="bk-table"><tbody>'+a.rows+'</tbody></table></div>'
+    + '</div>'
+  ).join('');
+
+  // ── TURNO CARD ──
+  let ganttHtml = '';
+  if(d.wallClock !== null && d.turnoPos !== null && d.turnoPre !== null) {
+    const total = Math.max(d.turnoTheo, d.wallClock);
+    const p = v => (v/total*100).toFixed(1)+'%';
+    ganttHtml =
+      '<div class="mini-gantt-label">Linha do tempo</div>'
+      + '<div class="mini-gantt-row"><div class="mini-gantt-lbl">Produ\u00e7\u00e3o</div><div class="mini-gantt-track"><div class="mini-gbar prod" style="left:0;width:'+p(d.wallClock)+'">'+(d.wallClock>=40?fmtM(d.wallClock):'')+'</div></div></div>'
+      + '<div class="mini-gantt-row"><div class="mini-gantt-lbl">Theo \u2014 p\u00f3s</div><div class="mini-gantt-track"><div class="mini-gbar pos" style="left:0;width:'+p(d.turnoPos)+'">'+(d.turnoPos>=30?fmtM(d.turnoPos):'')+'</div></div></div>'
+      + '<div class="mini-gantt-row"><div class="mini-gantt-lbl">Theo \u2014 pr\u00e9</div><div class="mini-gantt-track"><div class="mini-gbar pre" style="left:'+p(d.turnoPos)+';width:'+p(d.turnoPre)+'">'+(d.turnoPre>=30?fmtM(d.turnoPre):'')+'</div></div></div>'
+      + '<div class="mini-gantt-axis"><span>0</span><span>'+fmtM(Math.round(total/2))+'</span><span>'+fmtM(total)+'</span></div>';
+  } else {
+    ganttHtml = '<div class="notice">Preencha os tempos para ver a linha do tempo estimada.</div>';
+  }
+
+  document.getElementById('turno-card').innerHTML =
+    '<div class="turno-card">'
+    + '<div class="turno-card-header"><div class="turno-card-title">Turno Estimado</div><span class="turno-today">Hoje</span></div>'
+    + '<div class="turno-kpi">'
+    +   '<div class="turno-kpi-item"><div class="turno-kpi-label">Produ\u00e7\u00e3o</div><div class="turno-kpi-value" style="color:var(--blue)">'+(d.wallClock !== null ? fmtM(d.wallClock) : '\u2014')+'</div><div class="turno-kpi-sub">'+d.ciclos+' ciclos</div></div>'
+    +   '<div class="turno-kpi-item"><div class="turno-kpi-label">P\u00f3s-Produ\u00e7\u00e3o</div><div class="turno-kpi-value" style="color:var(--green)">'+(d.turnoPos !== null ? fmtM(d.turnoPos) : '\u2014')+'</div><div class="turno-kpi-sub">\u00f7 '+d.pplTheo+' pess.</div></div>'
+    +   '<div class="turno-kpi-item"><div class="turno-kpi-label">Pr\u00e9-Produ\u00e7\u00e3o</div><div class="turno-kpi-value" style="color:var(--amber)">'+(d.turnoPre !== null ? fmtM(d.turnoPre) : '\u2014')+'</div><div class="turno-kpi-sub">\u00f7 '+d.pplTheo+' pess.</div></div>'
+    + '</div>'
+    + ganttHtml
+    + '</div>';
+}
+
+// ═══════════════════════════
+//  HERO FORMAS INPUT
+// ═══════════════════════════
+function onHeroFormas(el) {
+  S.formas = parseInt(el.value) || 40;
+  const cfgEl = document.getElementById('cfg-formas');
+  if(cfgEl) cfgEl.value = S.formas;
+  persist();
+  renderDash();
 }
 
 // ═══════════════════════════
@@ -688,11 +902,11 @@ function renderConfig() {
   document.getElementById('ppl-prod').textContent=S.ppl.prod;
   document.getElementById('ppl-theo').textContent=S.ppl.theo||1;
   updateDerived();
-  document.getElementById('cfg-default-note').textContent=`Padrão atual: ${S.defaultFormas} formas`;
+  document.getElementById('cfg-default-note').textContent='Padrao atual: '+S.defaultFormas+' formas';
 }
 function updateDerived() {
   const f=parseInt(document.getElementById('cfg-formas').value)||0;
-  document.getElementById('cfg-derived').textContent=`→ ${(f*60).toLocaleString('pt-BR')} unidades · ${Math.ceil(f/5)} ciclos de forno`;
+  document.getElementById('cfg-derived').textContent='\u2192 '+(f*60).toLocaleString('pt-BR')+' unidades \u00b7 '+Math.ceil(f/5)+' ciclos de forno';
 }
 function onMetaChange() {
   S.formas=parseInt(document.getElementById('cfg-formas').value)||40;
@@ -701,14 +915,16 @@ function onMetaChange() {
 }
 function saveDefault() {
   S.defaultFormas=S.formas;
-  document.getElementById('cfg-default-note').textContent=`Padrão salvo: ${S.defaultFormas} formas ✓`;
+  document.getElementById('cfg-default-note').textContent='Padrao salvo: '+S.defaultFormas+' formas \u2713';
   persist();
 }
-function adjPpl(area, d) {
+function adjPpl(area, delta) {
   if(area==='pos'||area==='pre') area='theo';
-  S.ppl[area]=Math.max(1,(S.ppl[area]||1)+d);
-  if(area==='prod') document.getElementById('ppl-prod').textContent=S.ppl.prod;
-  if(area==='theo') document.getElementById('ppl-theo').textContent=S.ppl.theo;
+  S.ppl[area]=Math.max(1,(S.ppl[area]||1)+delta);
+  const prodEl=document.getElementById('ppl-prod');
+  const theoEl=document.getElementById('ppl-theo');
+  if(prodEl) prodEl.textContent=S.ppl.prod;
+  if(theoEl) theoEl.textContent=S.ppl.theo;
   persist();
   if(activeTab==='dashboard') renderDash();
 }
