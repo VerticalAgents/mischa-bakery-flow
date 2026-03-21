@@ -22,6 +22,17 @@ Everything lives in `index.html` in three sections:
 
 - **`calc()`** — derives all dashboard metrics from `S` and `STEPS`. Key business logic: 5 formas per ciclo, 30 min per oven cycle (22 min baking + 8 min handling), bottleneck detection compares manual prep time per cycle against the 30-min oven window. `wallClock` accounts for overflow when manual prep exceeds oven time.
 
+## GitHub Repository
+
+- **Repo:** https://github.com/VerticalAgents/mischa-bakery-flow
+- **Branch:** master
+- **Auto-sync:** Every vez que Claude edita um arquivo (`Edit` ou `Write`), um hook em `.claude/settings.json` roda automaticamente:
+  ```
+  git add -A && git diff --cached --quiet || (git commit -m "auto: update via Claude Code" && git push)
+  ```
+  Isso garante que todas as alterações feitas pelo Claude sejam enviadas ao GitHub sem intervenção manual.
+- **GitHub CLI:** instalado em `C:\Program Files\GitHub CLI\gh.exe`, autenticado como `VerticalAgents`.
+
 ## Key behaviors to understand
 
 - **DDL flavor** shows/hides steps with `ddlOnly:true` (e.g., "Topping DDL", "Encher sacos de confeitar"). The `showDDL()` helper checks `S.flavor`.
