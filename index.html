@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluxo de Produção — Mischa's Bakery</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f4ef;
+    --surface: #ffffff;
+    --surface2: #faf8f5;
+    --border: #e4ddd3;
+    --amber: #b86e1a;
+    --amber-dim: #d4893a;
+    --amber-light: rgba(184,110,26,0.10);
+    --text: #2a2218;
+    --text-muted: #7a6e5e;
+    --text-dim: #b0a898;
+    --green: #4a8c22;
+    --green-light: rgba(74,140,34,0.10);
+    --blue: #2a6ea0;
+    --blue-light: rgba(42,110,160,0.10);
+    --purple: #8a4a8a;
+    --font-head: 'Syne', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-mono); font-size: 13px; min-height: 100vh; }
+
+  header {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 14px 28px 0; position: sticky; top: 0; z-index: 100;
+  }
+  .header-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; }
+  .logo { display: flex; align-items: baseline; gap: 12px; }
+  .logo h1 { font-family: var(--font-head); font-size: 17px; font-weight: 700; color: var(--amber); letter-spacing: -0.01em; }
+  .logo span { color: var(--text-muted); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .header-right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+  .tab-nav { display: flex; }
+  .tab-btn { background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-family: var(--font-mono); font-size: 12px; padding: 8px 18px 10px; cursor: pointer; letter-spacing: 0.06em; transition: all 0.15s; margin-bottom: -1px; }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--amber); border-bottom-color: var(--amber); font-weight: 500; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .flavor-toggle { display: flex; gap: 2px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 3px; }
+  .flavor-btn { background: none; border: none; color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; padding: 5px 12px; border-radius: 4px; cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
+  .flavor-btn.active { background: var(--amber); color: white; font-weight: 500; }
+
+  .icon-btn { background: none; border: 1px solid var(--border); color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; padding: 7px 14px; border-radius: 6px; cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
+  .icon-btn:hover { border-color: var(--amber); color: var(--amber); }
+  .icon-btn.primary { background: var(--amber); border-color: var(--amber); color: white; }
+  .icon-btn.primary:hover { opacity: 0.88; }
+  .save-ind { font-size: 10px; color: var(--text-dim); letter-spacing: 0.06em; transition: color 0.4s; }
+  .save-ind.ok { color: var(--green); }
+
+  /* FLUXO */
+  .sw-wrap { padding: 20px 28px 48px; overflow-x: auto; }
+  table.sw { border-collapse: collapse; min-width: 760px; width: 100%; }
+  .lane-th { vertical-align: top; padding: 18px 14px 18px 0; position: sticky; left: 0; background: var(--bg); z-index: 10; }
+  .lane-th-inner { display: flex; align-items: flex-start; gap: 10px; }
+  .lane-bar { width: 3px; height: 44px; border-radius: 2px; flex-shrink: 0; margin-top: 2px; }
+  .lane-name { font-family: var(--font-head); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .lane-resp { font-size: 10px; color: var(--text-muted); letter-spacing: 0.06em; }
+  .lane-cell { vertical-align: top; padding: 12px 12px 16px; border-left: 1px solid var(--border); }
+  .cell-sub { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px; }
+  .flow { display: flex; flex-wrap: wrap; align-items: flex-start; }
+  .step-wrap { display: flex; align-items: center; }
+  .arrow { color: var(--text-dim); font-size: 13px; padding: 0 5px; flex-shrink: 0; margin-bottom: 4px; }
+  .card { width: 154px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 11px; margin-bottom: 4px; transition: border-color 0.15s; }
+  .card:hover { border-color: var(--amber-dim); }
+  .card.ddl-card { border-left: 3px solid #8a4a7a; }
+  .card-num { font-size: 9px; color: var(--text-dim); letter-spacing: 0.1em; margin-bottom: 3px; }
+  .card-name { font-size: 12px; font-weight: 500; color: var(--text); line-height: 1.3; margin-bottom: 7px; }
+  .badges { display: flex; gap: 3px; flex-wrap: wrap; margin-bottom: 6px; }
+  .badge { font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 5px; border-radius: 3px; }
+  .b-manual { background: var(--green-light); color: #3a7018; }
+  .b-auto   { background: var(--blue-light); color: #1a5888; }
+  .b-ddl    { background: rgba(138,74,138,0.10); color: var(--purple); }
+  .b-par    { background: rgba(138,74,138,0.08); color: var(--purple); }
+  .card-note { font-size: 10px; color: var(--text-muted); line-height: 1.4; font-style: italic; margin-bottom: 6px; }
+  .time-row { display: flex; align-items: center; gap: 5px; border-top: 1px solid var(--border); padding-top: 6px; }
+  .time-lbl { font-size: 9px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0; }
+  .time-in { background: var(--bg); border: 1px solid transparent; border-radius: 3px; color: var(--amber); font-family: var(--font-mono); font-size: 12px; font-weight: 500; padding: 2px 5px; width: 52px; outline: none; text-align: center; transition: border-color 0.15s; }
+  .time-in:focus { border-color: var(--amber-dim); }
+  .time-in::placeholder { color: var(--text-dim); font-size: 10px; }
+  .time-fixed { font-size: 12px; font-weight: 500; color: var(--amber); }
+  .time-unit { font-size: 10px; color: var(--text-dim); }
+  .loop-note { display: flex; align-items: center; gap: 6px; margin: 4px 0 2px 10px; font-size: 10px; color: var(--amber-dim); }
+  .loop-arrow { color: var(--amber); font-size: 15px; }
+  .lane-sep td { padding: 6px 0; border-top: 1px solid var(--border); }
+
+  /* DASHBOARD */
+  .dash-wrap { padding: 28px 28px 48px; max-width: 960px; }
+  .dash-section { margin-bottom: 36px; }
+  .section-title { font-family: var(--font-head); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 10px; margin-bottom: 16px; }
+  .mc { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .mc.a-blue  { border-top: 2px solid var(--blue); }
+  .mc.a-green { border-top: 2px solid var(--green); }
+  .mc.a-amber { border-top: 2px solid var(--amber); }
+  .mc-lbl { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; line-height: 1.3; }
+  .mc-val { font-size: 22px; font-weight: 500; color: var(--text); line-height: 1; }
+  .mc-val small { font-size: 12px; color: var(--text-muted); font-weight: 300; }
+  .mc-note { font-size: 10px; color: var(--text-dim); margin-top: 4px; line-height: 1.4; }
+
+  .dash-alert { display: flex; gap: 10px; padding: 12px 16px; border-radius: 8px; font-size: 12px; line-height: 1.5; margin-bottom: 14px; }
+  .dash-alert.warn { background: rgba(184,110,26,0.08); border: 1px solid rgba(184,110,26,0.2); color: #6a3e0e; }
+  .dash-alert.ok   { background: var(--green-light); border: 1px solid rgba(74,140,34,0.2); color: #2a5010; }
+  .dash-alert.info { background: var(--blue-light); border: 1px solid rgba(42,110,160,0.2); color: #1a4670; }
+
+  .breakdown { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 16px; border-collapse: collapse; }
+  .breakdown th { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); padding: 10px 14px; text-align: left; background: var(--surface2); border-bottom: 1px solid var(--border); font-weight: 500; }
+  .breakdown td { padding: 9px 14px; font-size: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .breakdown tr:last-child td { border-bottom: none; }
+  .t-time { color: var(--amber); font-weight: 500; text-align: right; white-space: nowrap; }
+  .t-time.missing { color: var(--text-dim); font-weight: 400; }
+  .t-par { font-size: 10px; color: var(--purple); margin-left: 4px; }
+
+  .gantt-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 20px 16px; overflow-x: auto; }
+  .gantt-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .gantt-lbl { font-size: 11px; color: var(--text-muted); width: 120px; flex-shrink: 0; text-align: right; }
+  .gantt-track { flex: 1; height: 30px; background: var(--bg); border-radius: 5px; position: relative; min-width: 360px; }
+  .gbar { position: absolute; height: 100%; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; overflow: hidden; white-space: nowrap; transition: left .3s, width .3s; }
+  .gbar.prod { background: rgba(42,110,160,0.15); color: var(--blue); border: 1px solid rgba(42,110,160,0.25); }
+  .gbar.pos  { background: var(--green-light); color: var(--green); border: 1px solid rgba(74,140,34,0.25); }
+  .gbar.pre  { background: var(--amber-light); color: var(--amber); border: 1px solid rgba(184,110,26,0.25); }
+  .gantt-axis { display: flex; justify-content: space-between; padding-left: 132px; margin-top: 8px; font-size: 9px; color: var(--text-dim); letter-spacing: 0.06em; }
+
+  .notice { background: var(--surface2); border: 1px dashed var(--border); border-radius: 8px; padding: 14px 18px; font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+  /* CONFIG */
+  .config-wrap { padding: 28px 28px 48px; max-width: 620px; }
+  .config-section { margin-bottom: 36px; }
+  .config-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+  .cfg-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .cfg-row:first-child { padding-top: 0; }
+  .cfg-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .cfg-lbl { font-size: 13px; color: var(--text); }
+  .cfg-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .ppl-ctrl { display: flex; align-items: center; gap: 10px; }
+  .ppl-btn { width: 30px; height: 30px; background: var(--bg); border: 1px solid var(--border); border-radius: 5px; color: var(--text); font-size: 18px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); transition: all 0.12s; }
+  .ppl-btn:hover { border-color: var(--amber); color: var(--amber); }
+  .ppl-val { font-size: 20px; font-weight: 500; min-width: 24px; text-align: center; color: var(--amber); font-family: var(--font-mono); }
+  .meta-row { display: flex; align-items: center; gap: 10px; }
+  .meta-input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--amber); font-family: var(--font-mono); font-size: 24px; font-weight: 500; padding: 6px 12px; width: 90px; outline: none; text-align: center; transition: border-color .15s; }
+  .meta-input:focus { border-color: var(--amber); }
+  .meta-unit { font-size: 13px; color: var(--text-muted); }
+  .config-note { font-size: 11px; color: var(--text-muted); line-height: 1.6; padding: 12px 14px; background: var(--surface2); border-radius: 6px; margin-top: 10px; }
+
+  /* GROUP */
+  .group-wrap { border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px 12px; margin-bottom: 4px; background: var(--surface2); position: relative; }
+  .group-wrap.bottleneck { border-color: rgba(184,50,50,0.45); background: rgba(184,50,50,0.03); }
+  .group-wrap.ok-pace   { border-color: rgba(74,140,34,0.35); background: rgba(74,140,34,0.03); }
+  .group-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .group-name { font-family: var(--font-head); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+  .group-badge { font-size: 9px; padding: 2px 7px; border-radius: 10px; letter-spacing: 0.05em; font-weight: 500; }
+  .group-badge.red   { background: rgba(184,50,50,0.12); color: #a02020; }
+  .group-badge.green { background: rgba(74,140,34,0.12); color: #2e6010; }
+  .group-badge.gray  { background: rgba(0,0,0,0.06); color: var(--text-muted); }
+  .group-flow { display: flex; flex-wrap: wrap; align-items: flex-start; }
+
+  ::-webkit-scrollbar { width:6px; height:6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--amber-dim); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo">
+      <h1>Mischa's Bakery</h1>
+      <span>fluxo de produção</span>
+    </div>
+    <div class="header-right">
+      <div class="flavor-toggle">
+        <button class="flavor-btn active" onclick="setFlavor('trad')">Tradicional</button>
+        <button class="flavor-btn"        onclick="setFlavor('ddl')">Doce de Leite</button>
+        <button class="flavor-btn"        onclick="setFlavor('mix')">Mix</button>
+      </div>
+      <button class="icon-btn" onclick="clearTimes()">↺ Limpar tempos</button>
+      <span class="save-ind" id="save-ind">● salvo</span>
+    </div>
+  </div>
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="setTab('fluxo')">Fluxo</button>
+    <button class="tab-btn"        onclick="setTab('dashboard')">Dashboard</button>
+    <button class="tab-btn"        onclick="setTab('config')">Configurações</button>
+  </div>
+</header>
+
+<!-- ── TAB: FLUXO ── -->
+<div id="tab-fluxo" class="tab-content active">
+<div class="sw-wrap">
+<table class="sw">
+  <colgroup><col style="width:152px"><col></colgroup>
+  <tbody>
+    <tr>
+      <td class="lane-th">
+        <div class="lane-th-inner">
+          <div class="lane-bar" style="background:var(--blue)"></div>
+          <div><div class="lane-name">Produção</div><div class="lane-resp">Beatriz + Enzo</div></div>
+        </div>
+      </td>
+      <td class="lane-cell" style="background:rgba(42,110,160,0.04)">
+        <div class="cell-sub">Ciclo de produção — reinicia na etapa 2 após cada fornada</div>
+        <div class="flow" id="flow-prod"></div>
+        <div class="loop-note"><span class="loop-arrow">↩</span><span>reinicia etapa 2 → até completar todas as formas do dia</span></div>
+      </td>
+    </tr>
+    <tr class="lane-sep"><td colspan="2"></td></tr>
+    <tr>
+      <td class="lane-th">
+        <div class="lane-th-inner">
+          <div class="lane-bar" style="background:var(--green)"></div>
+          <div><div class="lane-name">Pós-Produção</div><div class="lane-resp">Theo</div></div>
+        </div>
+      </td>
+      <td class="lane-cell" style="background:rgba(74,140,34,0.04)">
+        <div class="cell-sub">Inicia o turno — embala os brownies assados no dia anterior</div>
+        <div class="flow" id="flow-pos"></div>
+      </td>
+    </tr>
+    <tr class="lane-sep"><td colspan="2"></td></tr>
+    <tr>
+      <td class="lane-th">
+        <div class="lane-th-inner">
+          <div class="lane-bar" style="background:var(--amber)"></div>
+          <div><div class="lane-name">Pré-Produção</div><div class="lane-resp">Theo</div></div>
+        </div>
+      </td>
+      <td class="lane-cell" style="background:rgba(184,110,26,0.04)">
+        <div class="cell-sub">Final do turno — preparo para o dia seguinte</div>
+        <div class="flow" id="flow-pre"></div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+<!-- ── TAB: DASHBOARD ── -->
+<div id="tab-dashboard" class="tab-content">
+<div class="dash-wrap">
+
+  <div class="dash-section">
+    <div class="section-title" style="color:var(--blue)">Produção — Beatriz + Enzo</div>
+    <div class="metric-grid" id="dm-prod"></div>
+    <div id="dm-prod-alert"></div>
+    <table class="breakdown" id="dt-prod"></table>
+  </div>
+
+  <div class="dash-section">
+    <div class="section-title" style="color:var(--green)">Pós-Produção — Theo</div>
+    <div class="metric-grid" id="dm-pos"></div>
+    <table class="breakdown" id="dt-pos"></table>
+  </div>
+
+  <div class="dash-section">
+    <div class="section-title" style="color:var(--amber)">Pré-Produção — Theo</div>
+    <div class="metric-grid" id="dm-pre"></div>
+    <table class="breakdown" id="dt-pre"></table>
+  </div>
+
+  <div class="dash-section">
+    <div class="section-title">Turno estimado</div>
+    <div class="metric-grid" id="dm-turno"></div>
+    <div id="dm-gantt"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ── TAB: CONFIGURAÇÕES ── -->
+<div id="tab-config" class="tab-content">
+<div class="config-wrap">
+
+  <div class="config-section">
+    <div class="section-title">Meta de produção</div>
+    <div class="config-card">
+      <div class="cfg-row">
+        <div>
+          <div class="cfg-lbl">Formas por dia</div>
+          <div class="cfg-sub" id="cfg-derived">→ 2.400 unidades · 8 ciclos de forno</div>
+        </div>
+        <div>
+          <div class="meta-row">
+            <input type="number" class="meta-input" id="cfg-formas" value="40" min="1" max="200" oninput="onMetaChange()">
+            <span class="meta-unit">formas</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:14px;">
+        <button class="icon-btn primary" onclick="saveDefault()">Definir como padrão</button>
+        <span style="font-size:11px;color:var(--text-dim)" id="cfg-default-note"></span>
+      </div>
+    </div>
+    <div class="config-note">O padrão é salvo localmente e carregado ao abrir. Alterar o campo acima atualiza o Dashboard em tempo real, mas só vira padrão ao clicar no botão.</div>
+  </div>
+
+  <div class="config-section">
+    <div class="section-title">Equipe disponível</div>
+    <div class="config-card">
+      <div class="cfg-row">
+        <div><div class="cfg-lbl">Produção</div><div class="cfg-sub">Beatriz + Enzo (padrão: 2)</div></div>
+        <div class="ppl-ctrl">
+          <button class="ppl-btn" onclick="adjPpl('prod',-1)">−</button>
+          <span class="ppl-val" id="ppl-prod">2</span>
+          <button class="ppl-btn" onclick="adjPpl('prod',+1)">+</button>
+        </div>
+      </div>
+      <div class="cfg-row">
+        <div><div class="cfg-lbl">Pós + Pré-Produção</div><div class="cfg-sub">Theo e equipe — mesmas pessoas nas duas etapas (padrão: 1)</div></div>
+        <div class="ppl-ctrl">
+          <button class="ppl-btn" onclick="adjPpl('theo',-1)">−</button>
+          <span class="ppl-val" id="ppl-theo">1</span>
+          <button class="ppl-btn" onclick="adjPpl('theo',+1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="config-note">O número de pessoas divide o tempo manual total da área — afeta "tempo por pessoa" no Dashboard. Processos automáticos (forno, batedeira, flowpack) não são afetados.</div>
+  </div>
+
+</div>
+</div>
+
+<script>
+// ═══════════════════════════
+//  STEPS
+// ═══════════════════════════
+const STEPS = {
+  prod: [
+    { id:'pr0',  num:'0',  name:'Pré-aquecimento inicial', type:'auto', fixedLabel:'6 min', note:'Ligar o forno a 200°C quando estiver próximo de terminar o 1º ciclo de produção de massas', once:true },
+    { id:'pr1',  num:'1',  name:'Untar formas',            type:'manual', note:'Desmoldante em todas as formas do dia — feito uma única vez', once:true },
+    {
+      isGroup: true, id:'g-massas', name:'Produção de Massas',
+      note:'Repete a cada ciclo — deve caber nos 22 min de assamento',
+      steps: [
+        { id:'pr2',   num:'2',  name:'Porcionamento',         type:'manual', note:'Início do ciclo', perCiclo:true },
+        { id:'pr3',   num:'3',  name:'Ciclo de batedeira',    type:'auto',   note:'Automático — roda em paralelo', perCiclo:true, parallel:true },
+        { id:'pr4',   num:'4',  name:'Pesagem nas formas',    type:'manual', note:'5 formas por ciclo', perCiclo:true },
+        { id:'pr4b',  num:'4b', name:'Topping DDL',           type:'manual', note:'Listras de DDL + palito. ~2 min/forma', ddlOnly:true, perCiclo:true, fixed:10 },
+        { id:'pr-rh', num:'↺',  name:'Re-pré-aquecimento',   type:'auto',   fixedLabel:'2 min', note:'A partir do 2º ciclo — paralelo, forno reaquece sozinho', perCiclo:true, parallel:true }
+      ]
+    },
+    { id:'pr5',  num:'5',  name:'Assamento',           type:'auto',   fixedLabel:'30 min/ciclo', note:'22 min de forno a 160°C + 8 min para colocar/tirar formas e organizar o carrinho', perCiclo:true, parallel:true, oven:true },
+    { id:'pr6',  num:'6',  name:'Resfriamento',        type:'auto',   fixedLabel:'120–180 min',  note:'Carrinho esqueleto — resfria sozinho, não bloqueia equipe', once:true, parallel:true },
+    { id:'pr7',  num:'7',  name:'Limpeza da produção', type:'manual', note:'Inicia assim que o último lote for transferido para o carrinho esqueleto — não precisa aguardar o resfriamento completo', once:true }
+  ],
+  pos: [
+    { id:'po1', num:'1', name:'Cortar na forma',       type:'manual', note:'2,5 min/forma · 12,5 min por ciclo', perCiclo:true, defaultVal:12.5 },
+    { id:'po2', num:'2', name:'Desenformar',           type:'manual', note:'2,5 min/forma · 12,5 min por ciclo', perCiclo:true, defaultVal:12.5 },
+    { id:'po3', num:'3', name:'Configurar datador',    type:'manual', note:'Data de fabricação, validade e lote', once:true },
+    { id:'po4', num:'4', name:'Embalar flowpack',      type:'auto',   note:'Automático. 18 un → caixa display ao sair', parallel:true },
+    { id:'po5', num:'5', name:'Montar caixas display', type:'manual', note:'18 un/caixa · ~5 seg/caixa', perCiclo:true },
+    { id:'po6', num:'6', name:'Caixas de embarque',    type:'manual', note:'16 displays = 288 un/caixa embarque', perCiclo:true },
+    { id:'po7', num:'7', name:'Higienizar flowpack',   type:'manual', note:null, once:true },
+    { id:'po8', num:'8', name:'Lavar formas',          type:'manual', note:'Formas da produção do dia anterior', once:true },
+    { id:'po9', num:'9', name:'Limpeza pós-produção',  type:'manual', note:'Utensílios e ambiente', once:true }
+  ],
+  pre: [
+    { id:'pre1', num:'P1', name:'Encher baldes',             type:'manual', note:'Açúcar, ovo em pó, sorbitol, farinha (peneirar), chocolate 50%' },
+    { id:'pre2', num:'P2', name:'Encher sacos de confeitar', type:'manual', note:'Doce de leite para topping', ddlOnly:true }
+  ]
+};
+
+// ═══════════════════════════
+//  STATE
+// ═══════════════════════════
+const KEY = 'mischa_v3';
+let S = {
+  flavor: 'trad',
+  times: {},
+  formas: 40,
+  defaultFormas: 40,
+  ppl: { prod:2, theo:1 }
+};
+
+function load() {
+  try { const r = localStorage.getItem(KEY); if(r) Object.assign(S, JSON.parse(r)); } catch(e){}
+}
+function persist() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(S));
+    const el = document.getElementById('save-ind');
+    el.textContent = '● salvo'; el.classList.add('ok');
+    setTimeout(()=>el.classList.remove('ok'), 1800);
+  } catch(e){}
+}
+
+// ═══════════════════════════
+//  TABS
+// ═══════════════════════════
+let activeTab = 'fluxo';
+function setTab(t) {
+  activeTab = t;
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['fluxo','dashboard','config'][i]===t));
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.toggle('active',el.id==='tab-'+t));
+  if(t==='dashboard') renderDash();
+  if(t==='config') renderConfig();
+}
+
+// ═══════════════════════════
+//  FLAVOR
+// ═══════════════════════════
+function setFlavor(f) {
+  S.flavor = f;
+  document.querySelectorAll('.flavor-btn').forEach((b,i)=>b.classList.toggle('active',['trad','ddl','mix'][i]===f));
+  renderFluxo();
+  if(activeTab==='dashboard') renderDash();
+  persist();
+}
+function showDDL() { return S.flavor==='ddl'||S.flavor==='mix'; }
+
+// ═══════════════════════════
+//  TIME UTILS
+// ═══════════════════════════
+function gt(id) { const v=parseFloat(S.times[id]); return isNaN(v)?null:v; }
+function fmtM(m) {
+  if(m===null) return '—';
+  m = Math.round(m);
+  if(m<60) return m+' min';
+  const h=Math.floor(m/60), mm=m%60;
+  return mm>0 ? `${h}h ${String(mm).padStart(2,'0')}min` : `${h}h`;
+}
+function onTime(el) {
+  const v = el.value.trim();
+  if(v==='') delete S.times[el.dataset.id]; else S.times[el.dataset.id]=parseFloat(v);
+  persist();
+  if(activeTab==='dashboard') renderDash();
+}
+function clearTimes() {
+  if(!confirm('Limpar todos os tempos registrados?')) return;
+  S.times={};
+  persist(); renderFluxo();
+  if(activeTab==='dashboard') renderDash();
+}
+
+// ═══════════════════════════
+//  FLUXO
+// ═══════════════════════════
+function buildCard(s) {
+  if(s.ddlOnly && !showDDL()) return null;
+  const storedVal = S.times[s.id];
+  const displayVal = storedVal != null ? String(storedVal) : (s.defaultVal != null ? String(s.defaultVal) : '');
+  let badges = `<span class="badge b-${s.type}">${s.type==='auto'?'automático':'manual'}</span>`;
+  if(s.ddlOnly) badges+=`<span class="badge b-ddl">DDL</span>`;
+  if(s.parallel) badges+=`<span class="badge b-par">↕ paralelo</span>`;
+  const note = s.note ? `<div class="card-note">${s.note}</div>` : '';
+  let tr;
+  if(s.fixedLabel) {
+    tr=`<div class="time-row"><span class="time-lbl">tempo</span><span class="time-fixed">${s.fixedLabel}</span></div>`;
+  } else if(s.fixed) {
+    tr=`<div class="time-row"><span class="time-lbl">tempo</span><span class="time-fixed">${s.fixed} min/ciclo</span></div>`;
+  } else {
+    const ctx = s.once ? '1×/dia' : 'por ciclo — 5 formas';
+    tr=`<div style="border-top:1px solid var(--border);padding-top:6px;">
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+        <span class="time-lbl">tempo</span>
+        <input class="time-in" type="number" placeholder="—" value="${displayVal}" data-id="${s.id}" oninput="onTime(this)" min="0" step="0.5">
+        <span style="font-size:10px;color:var(--text-dim)">min</span>
+      </div>
+      <div style="font-size:9px;color:var(--text-dim);letter-spacing:0.05em">${ctx}</div>
+    </div>`;
+  }
+  return `<div class="card${s.ddlOnly?' ddl-card':''}">
+    <div class="card-num">ETAPA ${s.num}</div>
+    <div class="card-name">${s.name}</div>
+    <div class="badges">${badges}</div>${note}${tr}
+  </div>`;
+}
+
+function buildGroup(g) {
+  const ddl = showDDL();
+  // calc manual time of group steps
+  let manualSum = 0, allFilled = true;
+  g.steps.forEach(s => {
+    if(s.ddlOnly && !ddl) return;
+    if(s.type==='auto'||s.parallel) return;
+    if(s.fixed) { manualSum+=s.fixed; return; }
+    const t = gt(s.id);
+    if(t===null) allFilled=false; else manualSum+=t;
+  });
+  const OVEN_WINDOW = 30; // min — ciclo completo (22 min forno + 8 min manuseio)
+  let statusCls='', badgeHtml='';
+  if(!allFilled) {
+    statusCls='';
+    badgeHtml=`<span class="group-badge gray">preencha os tempos</span>`;
+  } else if(manualSum > OVEN_WINDOW) {
+    statusCls='bottleneck';
+    badgeHtml=`<span class="group-badge red">⚠ gargalo — ${Math.round(manualSum)} min &gt; ${OVEN_WINDOW} min janela</span>`;
+  } else {
+    statusCls='ok-pace';
+    badgeHtml=`<span class="group-badge green">✓ ${Math.round(manualSum)} min — cabe na janela de ${OVEN_WINDOW} min</span>`;
+  }
+  const cards = g.steps.map(s => {
+    const h = buildCard(s);
+    return h ? `<div class="step-wrap">${h}<span class="arrow">→</span></div>` : '';
+  }).filter(Boolean);
+  // remove last arrow
+  const joined = cards.join('');
+  // wrap in group
+  return `<div class="group-wrap ${statusCls}">
+    <div class="group-header">
+      <span class="group-name">${g.name}</span>
+      ${badgeHtml}
+    </div>
+    <div class="group-flow">${joined.replace(/(<span class="arrow">→<\/span>)(?![\s\S]*<span class="arrow">)/, '')}</div>
+  </div>`;
+}
+
+function renderFlow(id, steps) {
+  const el=document.getElementById('flow-'+id); if(!el) return;
+  const parts = steps.map(item => {
+    if(item.isGroup) {
+      const h = buildGroup(item);
+      return h ? `<div class="step-wrap" style="align-items:flex-start">${h}<span class="arrow" style="margin-top:60px">→</span></div>` : '';
+    }
+    const h = buildCard(item);
+    return h ? `<div class="step-wrap">${h}<span class="arrow">→</span></div>` : '';
+  }).filter(Boolean);
+  el.innerHTML = parts.join('');
+  const arrows = el.querySelectorAll(':scope > .step-wrap > .arrow');
+  if(arrows.length) arrows[arrows.length-1].style.visibility='hidden';
+}
+function renderFluxo() {
+  renderFlow('prod',STEPS.prod);
+  renderFlow('pos',STEPS.pos);
+  renderFlow('pre',STEPS.pre);
+}
+
+// ═══════════════════════════
+//  DASHBOARD CALC
+// ═══════════════════════════
+function calc() {
+  const formas=S.formas, ciclos=Math.ceil(formas/5), un=formas*60;
+  const ddl=showDDL();
+
+  // FORNO: 22 min forno + 8 min manuseio = 30 min/ciclo · pré-aquec paralelo
+  const fornoTotal = 30 * ciclos;
+
+  // flatten prod steps (handle groups)
+  const flatProd = [];
+  STEPS.prod.forEach(item => { if(item.isGroup) flatProd.push(...item.steps); else flatProd.push(item); });
+
+  // PRODUÇÃO manual
+  const t1=gt('pr1'), t2=gt('pr2'), t4=gt('pr4'), t7=gt('pr7');
+  const ddlMin = ddl?10:0;
+
+  const manualOnceProd  = (t1??0)+(t7??0);
+  const manualCicloProd = (t2??0)+(t4??0)+ddlMin;
+  const manualTotalProd = manualOnceProd + manualCicloProd*ciclos;
+
+  const prepPerCiclo = (t2!==null&&t4!==null) ? t2+t4+ddlMin : null;
+  let wallClock=null, bottleneck='forno';
+  if(prepPerCiclo!==null) {
+    const overflow=Math.max(0,prepPerCiclo-30)*Math.max(0,ciclos-1);
+    wallClock=fornoTotal+overflow+(t7??0);
+    if(prepPerCiclo>30) bottleneck='manual';
+  }
+
+  const filledProd=flatProd.filter(s=>(!s.ddlOnly||ddl)&&(s.fixedLabel||s.fixed||gt(s.id)!==null)).length;
+  const totalProd =flatProd.filter(s=>!s.ddlOnly||ddl).length;
+
+  // PÓS — use defaultVal as fallback when no stored time
+  function gtPos(s) { const v=parseFloat(S.times[s.id]); return !isNaN(v)?v:(s.defaultVal!=null?s.defaultVal:null); }
+  let manualPos=0, posOk=true;
+  STEPS.pos.forEach(s=>{
+    if(s.type==='auto'||s.parallel) return;
+    if(s.fixed) { manualPos+=s.fixed*ciclos; return; }
+    const t=gtPos(s);
+    if(t===null) { posOk=false; return; }
+    manualPos += s.perCiclo ? t*ciclos : t;
+  });
+  const turnoPos = posOk ? Math.ceil(manualPos/( S.ppl.theo||1)) : null;
+
+  // PRÉ manual
+  let manualPre=0, preOk=true;
+  STEPS.pre.forEach(s=>{ if(s.ddlOnly&&!ddl) return; const t=gt(s.id); if(t===null) preOk=false; manualPre+=(t??0); });
+  const turnoPre = preOk ? Math.ceil(manualPre/(S.ppl.theo||1)) : null;
+  const turnoTheo = (turnoPos!==null&&turnoPre!==null) ? turnoPos+turnoPre : null;
+
+  return {formas,ciclos,un,ddl,fornoTotal,manualTotalProd,wallClock,bottleneck,prepPerCiclo,
+          filledProd,totalProd,manualPos,turnoPos,manualPre,turnoPre,turnoTheo,posOk,preOk,
+          pplTheo: S.ppl.theo||1};
+}
+
+// ═══════════════════════════
+//  DASHBOARD RENDER
+// ═══════════════════════════
+function renderDash() {
+  const d=calc();
+  const pp=d.filledProd<d.totalProd;
+
+  // PROD metrics
+  document.getElementById('dm-prod').innerHTML=`
+    <div class="mc a-blue"><div class="mc-lbl">Ciclos de forno</div><div class="mc-val">${d.ciclos} <small>ciclos</small></div><div class="mc-note">${d.formas} formas · ${d.un.toLocaleString('pt-BR')} un</div></div>
+    <div class="mc a-amber"><div class="mc-lbl">Tempo total forno</div><div class="mc-val">${fmtM(d.fornoTotal)}</div><div class="mc-note">30 min × ${d.ciclos} ciclos (22 forno + 8 manuseio)</div></div>
+    <div class="mc a-green"><div class="mc-lbl">Manual total produção</div><div class="mc-val">${pp?'≥':''} ${fmtM(d.manualTotalProd)}</div><div class="mc-note">${d.filledProd}/${d.totalProd} etapas · ${S.ppl.prod} pessoa${S.ppl.prod>1?'s':''} → ${fmtM(Math.ceil(d.manualTotalProd/S.ppl.prod))}/pessoa</div></div>
+    <div class="mc${d.wallClock!==null?' a-amber':''}"><div class="mc-lbl">Duração estimada</div><div class="mc-val">${d.wallClock!==null?fmtM(d.wallClock):'—'}</div><div class="mc-note">${d.bottleneck==='forno'?'gargalo: forno':'gargalo: preparo manual'}</div></div>`;
+
+  // alert
+  let al='';
+  if(pp) al=`<div class="dash-alert info">ℹ &nbsp;${d.totalProd-d.filledProd} etapa(s) sem tempo. Valores calculados com 0 nesses campos. Preencha na aba Fluxo.</div>`;
+  else if(d.prepPerCiclo!==null&&d.prepPerCiclo>30) al=`<div class="dash-alert warn">⚠ &nbsp;Preparo manual por ciclo (${Math.round(d.prepPerCiclo)} min) > ciclo de forno (30 min). O preparo é o gargalo — o forno espera. Considere mais uma pessoa.</div>`;
+  else if(d.prepPerCiclo!==null) al=`<div class="dash-alert ok">✓ &nbsp;Preparo manual por ciclo (${Math.round(d.prepPerCiclo)} min) cabe dentro do ciclo de forno (30 min). Forno é o gargalo — equipe não fica parada.</div>`;
+  document.getElementById('dm-prod-alert').innerHTML=al;
+
+  // PROD table
+  let rows='';
+  STEPS.prod.forEach(s=>{
+    if(s.ddlOnly&&!d.ddl) return;
+    let tv,tc='t-time';
+    if(s.fixedLabel) tv=s.fixedLabel;
+    else if(s.fixed) { const tot=s.fixed*d.ciclos; tv=`${s.fixed} min/ciclo → ${tot} min total`; }
+    else { const t=gt(s.id); if(t===null){tv='—';tc='t-time missing';}else if(s.once){tv=`${t} min (1×)`;}else if(s.perCiclo){tv=`${t} min/ciclo → ${Math.round(t*d.ciclos)} min`;}else{tv=t+' min';} }
+    rows+=`<tr><td>${s.name}${s.ddlOnly?` <span style="color:var(--purple);font-size:10px">(DDL)</span>`:''}</td><td><span class="badge b-${s.type}">${s.type==='auto'?'auto':'manual'}</span>${s.parallel?`<span class="t-par">↕ paralelo</span>`:''}</td><td class="${tc}">${tv}</td></tr>`;
+  });
+  document.getElementById('dt-prod').innerHTML=`<thead><tr><th>Etapa</th><th>Tipo</th><th style="text-align:right">Tempo</th></tr></thead><tbody>${rows}</tbody>`;
+
+  // PÓS metrics
+  document.getElementById('dm-pos').innerHTML=`
+    <div class="mc a-green"><div class="mc-lbl">Manual total</div><div class="mc-val">${!d.posOk?'≥':''} ${fmtM(d.manualPos)}</div><div class="mc-note">${d.pplTheo} pessoa${d.pplTheo>1?'s':''} → ${fmtM(d.turnoPos)}</div></div>
+    <div class="mc"><div class="mc-lbl">Flowpack</div><div class="mc-val" style="font-size:14px;margin-top:4px">paralelo</div><div class="mc-note">não bloqueia o operador</div></div>`;
+  let posR='';
+  STEPS.pos.forEach(s=>{
+    let tv, tc='t-time';
+    if(s.type==='auto'||s.parallel) { tv='automático ↕ paralelo'; tc='t-time'; }
+    else if(s.fixed) { tv=`${s.fixed} min/ciclo → ${Math.round(s.fixed*d.ciclos)} min total`; }
+    else {
+      const stored=parseFloat(S.times[s.id]);
+      const t=!isNaN(stored)?stored:(s.defaultVal!=null?s.defaultVal:null);
+      const isDefault = isNaN(stored) && s.defaultVal!=null;
+      if(t===null) { tv='—'; tc='t-time missing'; }
+      else if(s.once) { tv=`${t} min (1×/dia)${isDefault?' *':''}`; }
+      else if(s.perCiclo) { tv=`${t} min/ciclo → ${Math.round(t*d.ciclos)} min total${isDefault?' *':''}`; }
+      else { tv=t+' min'; }
+    }
+    posR+=`<tr><td>${s.name}</td><td><span class="badge b-${s.type}">${s.type==='auto'?'auto':'manual'}</span>${s.parallel?`<span class="t-par">↕ paralelo</span>`:''}</td><td class="${tc}">${tv}</td></tr>`;
+  });
+  document.getElementById('dt-pos').innerHTML=`<thead><tr><th>Etapa</th><th>Tipo</th><th style="text-align:right">Tempo</th></tr></thead><tbody>${posR}</tbody>`;
+
+  // PRÉ metrics
+  document.getElementById('dm-pre').innerHTML=`
+    <div class="mc a-amber"><div class="mc-lbl">Manual total</div><div class="mc-val">${!d.preOk?'≥':''} ${fmtM(d.manualPre)}</div><div class="mc-note">${d.pplTheo} pessoa${d.pplTheo>1?'s':''} → ${fmtM(d.turnoPre)}</div></div>`;
+  let preR='';
+  STEPS.pre.forEach(s=>{
+    if(s.ddlOnly&&!d.ddl) return;
+    const t=gt(s.id); let tv=t!==null?t+' min':'—',tc=t!==null?'t-time':'t-time missing';
+    preR+=`<tr><td>${s.name}${s.ddlOnly?` <span style="color:var(--purple);font-size:10px">(DDL)</span>`:''}</td><td><span class="badge b-manual">manual</span></td><td class="${tc}">${tv}</td></tr>`;
+  });
+  document.getElementById('dt-pre').innerHTML=`<thead><tr><th>Etapa</th><th>Tipo</th><th style="text-align:right">Tempo</th></tr></thead><tbody>${preR}</tbody>`;
+
+  // TURNO metrics
+  document.getElementById('dm-turno').innerHTML=`
+    <div class="mc a-blue"><div class="mc-lbl">Produção</div><div class="mc-val">${d.wallClock!==null?fmtM(d.wallClock):'—'}</div><div class="mc-note">wall clock · paceado pelo forno</div></div>
+    <div class="mc a-green"><div class="mc-lbl">Pós-Produção</div><div class="mc-val">${d.turnoPos!==null?fmtM(d.turnoPos):'—'}</div><div class="mc-note">÷ ${d.pplTheo} pessoa${d.pplTheo>1?'s':''}</div></div>
+    <div class="mc a-amber"><div class="mc-lbl">Pré-Produção</div><div class="mc-val">${d.turnoPre!==null?fmtM(d.turnoPre):'—'}</div><div class="mc-note">÷ ${d.pplTheo} pessoa${d.pplTheo>1?'s':''}</div></div>
+    <div class="mc a-amber"><div class="mc-lbl">Total Theo</div><div class="mc-val">${d.turnoTheo!==null?fmtM(d.turnoTheo):'—'}</div><div class="mc-note">pós + pré</div></div>`;
+
+  // GANTT
+  if(d.wallClock!==null && d.turnoPos!==null && d.turnoPre!==null) {
+    const total=Math.max(d.turnoTheo, d.wallClock);
+    const p=v=>(v/total*100).toFixed(1)+'%';
+    document.getElementById('dm-gantt').innerHTML=`<div class="gantt-wrap">
+      <div style="font-size:10px;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px">Linha do tempo — processos em paralelo</div>
+      <div class="gantt-row"><div class="gantt-lbl">Produção</div><div class="gantt-track"><div class="gbar prod" style="left:0;width:${p(d.wallClock)}">${d.wallClock>=40?fmtM(d.wallClock):''}</div></div></div>
+      <div class="gantt-row"><div class="gantt-lbl">Theo — pós</div><div class="gantt-track"><div class="gbar pos" style="left:0;width:${p(d.turnoPos)}">${d.turnoPos>=30?fmtM(d.turnoPos):''}</div></div></div>
+      <div class="gantt-row"><div class="gantt-lbl">Theo — pré</div><div class="gantt-track"><div class="gbar pre" style="left:${p(d.turnoPos)};width:${p(d.turnoPre)}">${d.turnoPre>=30?fmtM(d.turnoPre):''}</div></div></div>
+      <div class="gantt-axis"><span>0</span><span>${fmtM(Math.round(total/2))}</span><span>${fmtM(total)}</span></div>
+    </div>`;
+  } else {
+    document.getElementById('dm-gantt').innerHTML=`<div class="notice">Preencha os tempos das etapas na aba Fluxo para ver a linha do tempo estimada.</div>`;
+  }
+}
+
+// ═══════════════════════════
+//  CONFIG
+// ═══════════════════════════
+function renderConfig() {
+  document.getElementById('cfg-formas').value=S.formas;
+  document.getElementById('ppl-prod').textContent=S.ppl.prod;
+  document.getElementById('ppl-theo').textContent=S.ppl.theo||1;
+  updateDerived();
+  document.getElementById('cfg-default-note').textContent=`Padrão atual: ${S.defaultFormas} formas`;
+}
+function updateDerived() {
+  const f=parseInt(document.getElementById('cfg-formas').value)||0;
+  document.getElementById('cfg-derived').textContent=`→ ${(f*60).toLocaleString('pt-BR')} unidades · ${Math.ceil(f/5)} ciclos de forno`;
+}
+function onMetaChange() {
+  S.formas=parseInt(document.getElementById('cfg-formas').value)||40;
+  updateDerived(); persist();
+  if(activeTab==='dashboard') renderDash();
+}
+function saveDefault() {
+  S.defaultFormas=S.formas;
+  document.getElementById('cfg-default-note').textContent=`Padrão salvo: ${S.defaultFormas} formas ✓`;
+  persist();
+}
+function adjPpl(area, d) {
+  if(area==='pos'||area==='pre') area='theo';
+  S.ppl[area]=Math.max(1,(S.ppl[area]||1)+d);
+  if(area==='prod') document.getElementById('ppl-prod').textContent=S.ppl.prod;
+  if(area==='theo') document.getElementById('ppl-theo').textContent=S.ppl.theo;
+  persist();
+  if(activeTab==='dashboard') renderDash();
+}
+
+// ═══════════════════════════
+//  INIT
+// ═══════════════════════════
+load();
+S.formas=S.defaultFormas||40;
+document.querySelectorAll('.flavor-btn').forEach((b,i)=>b.classList.toggle('active',['trad','ddl','mix'][i]===S.flavor));
+renderFluxo();
+</script>
+</body>
+</html>
