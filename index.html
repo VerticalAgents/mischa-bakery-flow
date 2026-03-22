@@ -814,10 +814,12 @@ function renderDash() {
     const mH = Math.round((manualPC/maxVal)*barMaxH);
     const fY = svgH - fH - 14;
     const mY = svgH - mH - 14;
-    svgBars += `<rect x="${x}" y="${fY}" width="${barW}" height="${fH}" rx="3" fill="rgba(42,110,160,0.12)"/>`;
+    const tipForno = `Ciclo ${i+1}: forno 30 min`;
+    const tipManual = `Ciclo ${i+1}: manual ${Math.round(manualPC)} min${manualPC>30?' ⚠ gargalo':''}`;
+    svgBars += `<rect x="${x}" y="${fY}" width="${barW}" height="${fH}" rx="3" fill="rgba(42,110,160,0.12)" style="cursor:default" onmouseenter="showChartTip(event,'${tipForno}')" onmouseleave="hideChartTip()"/>`;
     if(manualPC > 0) {
       const mColor = manualPC > 30 ? 'rgba(184,110,26,0.65)' : 'rgba(74,140,34,0.55)';
-      svgBars += `<rect x="${x+2}" y="${mY+2}" width="${barW-4}" height="${Math.max(mH-2,1)}" rx="2" fill="${mColor}"/>`;
+      svgBars += `<rect x="${x+2}" y="${mY+2}" width="${barW-4}" height="${Math.max(mH-2,1)}" rx="2" fill="${mColor}" style="cursor:default" onmouseenter="showChartTip(event,'${tipManual}')" onmouseleave="hideChartTip()"/>`;
     }
   }
   const svgW = Math.max(totalBars*(barW+barGap)-barGap, 1);
