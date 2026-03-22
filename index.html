@@ -687,7 +687,8 @@ function buildCard(s) {
     const ctx = s.once ? '1×/dia' : 'por ciclo — 5 formas';
     tr=`<div style="border-top:1px solid var(--border);padding-top:6px;"><div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;"><span class="time-lbl">tempo</span><input class="time-in" type="number" placeholder="—" value="${displayVal}" data-id="${s.id}" oninput="onTime(this)" min="0" step="0.5"><span style="font-size:10px;color:var(--text-dim)">min</span></div><div style="font-size:9px;color:var(--text-dim);letter-spacing:0.05em">${ctx}</div></div>`;
   }
-  return `<div class="card${s.ddlOnly?' ddl-card':''}"><div class="card-num">ETAPA ${s.num}</div><div class="card-name">${s.name}</div><div class="badges">${badges}</div>${note}${tr}</div>`;
+  const isFilled = s.fixedLabel || s.fixed || (S.times[s.id] != null) || (s.defaultVal != null);
+  return `<div class="card${s.ddlOnly?' ddl-card':''}${isFilled?' filled':''}"><div class="card-num">ETAPA ${s.num}</div><div class="card-name">${s.name}</div><div class="badges">${badges}</div>${note}${tr}</div>`;
 }
 
 function buildGroup(g) {
