@@ -287,13 +287,18 @@ Inspirado no grid 2-colunas da referência Twisty:
 
 ## Tipografia
 
-| Uso | Font | Weight | Size |
-|-----|------|--------|------|
-| Títulos / Logo | `Syne` | 700 | 17–22px |
-| KPIs grandes | `Syne` | 700 | 28–42px |
-| Labels / Tags | `DM Mono` | 400 | 10–11px |
-| Body / Dados | `DM Mono` | 400 | 12–13px |
-| Badges | `DM Mono` | 500 | 9–10px |
+O sistema usa 3 famílias tipográficas carregadas via Google Fonts no `index.html`:
+
+- **Inter** (`--font-sans`) — fonte principal para UI, textos e interface geral. Pesos: 400, 500, 600, 700.
+- **Source Serif 4** (`--font-serif`) — fonte serifada para títulos, logo e destaques editoriais. Pesos: 400, 600, 700.
+- **JetBrains Mono** (`--font-mono`) — fonte monospace para dados técnicos, inputs, badges e valores numéricos. Pesos: 400, 500, 600.
+
+| Uso | Família | Variável CSS | Weight | Size |
+|-----|---------|-------------|--------|------|
+| Body / Interface geral | Inter | `--font-sans` | 400, 500 | 12–13px |
+| Títulos / Logo / KPIs grandes | Source Serif 4 | `--font-serif` | 600, 700 | 14–42px |
+| Labels uppercase / Tags | Inter | `--font-sans` | 500, 600 | 10–11px |
+| Dados / Inputs / Badges / Valores | JetBrains Mono | `--font-mono` | 400, 500 | 9–13px |
 
 ---
 
