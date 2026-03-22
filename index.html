@@ -144,7 +144,7 @@
 
   .lane-card {
     background: var(--surface);
-    border-radius: 20px;
+    border-radius: var(--radius-xl);
     box-shadow: 0 2px 12px rgba(0,0,0,0.05);
     overflow: hidden;
   }
@@ -227,7 +227,7 @@
 
   .production-hero {
     background: var(--surface);
-    border-radius: 20px;
+    border-radius: var(--radius-xl);
     padding: 28px 32px;
     box-shadow: 0 2px 16px rgba(0,0,0,0.05);
     margin-bottom: 16px;
@@ -240,14 +240,14 @@
   .hero-kpi-row { display: flex; align-items: flex-end; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
   .hero-value { font-family: var(--font-serif); font-size: 42px; font-weight: 700; color: var(--text); line-height: 1; }
   .hero-kpi-meta { display: flex; flex-direction: column; gap: 6px; padding-bottom: 4px; }
-  .hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: var(--radius-xl); font-size: 11px; font-weight: 500; }
   .hero-badge.ok   { background: var(--green-light); color: var(--green); }
   .hero-badge.warn { background: var(--amber-light); color: var(--amber); }
   .hero-badge.info { background: var(--blue-light); color: var(--blue); }
   .hero-sub { font-size: 11px; color: var(--text-muted); }
   .hero-chart { margin-bottom: 20px; }
   .cycle-indicators { display: flex; gap: 5px; flex-wrap: wrap; }
-  .cycle-dot { font-size: 10px; padding: 3px 8px; border-radius: 20px; font-family: var(--font-mono); background: var(--bg); color: var(--text-dim); border: 1px solid var(--border); transition: all 0.15s; }
+  .cycle-dot { font-size: 10px; padding: 3px 8px; border-radius: var(--radius-xl); font-family: var(--font-mono); background: var(--bg); color: var(--text-dim); border: 1px solid var(--border); transition: all 0.15s; }
   .cycle-dot.active { background: var(--amber); color: white; border-color: var(--amber); font-weight: 500; }
 
   .dash-bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -342,7 +342,7 @@
 
   .config-section-card {
     background: var(--surface);
-    border-radius: 20px;
+    border-radius: var(--radius-xl);
     box-shadow: 0 2px 12px rgba(0,0,0,0.05);
     overflow: hidden;
   }
