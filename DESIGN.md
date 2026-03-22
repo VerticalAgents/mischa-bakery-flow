@@ -285,20 +285,105 @@ Inspirado no grid 2-colunas da referência Twisty:
 
 ---
 
-## Tipografia
+## Design System — Mischa OS
 
-O sistema usa 3 famílias tipográficas carregadas via Google Fonts no `index.html`:
+### Tipografia
 
-- **Inter** (`--font-sans`) — fonte principal para UI, textos e interface geral. Pesos: 400, 500, 600, 700.
-- **Source Serif 4** (`--font-serif`) — fonte serifada para títulos, logo e destaques editoriais. Pesos: 400, 600, 700.
-- **JetBrains Mono** (`--font-mono`) — fonte monospace para dados técnicos, inputs, badges e valores numéricos. Pesos: 400, 500, 600.
+Fonte carregada via Google Fonts com `display=swap`.
 
-| Uso | Família | Variável CSS | Weight | Size |
-|-----|---------|-------------|--------|------|
-| Body / Interface geral | Inter | `--font-sans` | 400, 500 | 12–13px |
-| Títulos / Logo / KPIs grandes | Source Serif 4 | `--font-serif` | 600, 700 | 14–42px |
-| Labels uppercase / Tags | Inter | `--font-sans` | 500, 600 | 10–11px |
-| Dados / Inputs / Badges / Valores | JetBrains Mono | `--font-mono` | 400, 500 | 9–13px |
+| Classe | Família | Uso | Pesos |
+|--------|---------|-----|-------|
+| `--font-sans` | Inter | UI geral, textos, botões, labels | 400, 500, 600, 700 |
+| `--font-serif` | Source Serif 4 | Títulos editoriais, logo, KPIs grandes | 400, 600, 700 |
+| `--font-mono` | JetBrains Mono | Código, dados técnicos, inputs, valores numéricos | 400, 500, 600 |
+
+---
+
+### Paleta de Cores (tokens HSL)
+
+**Light Mode**
+
+| Token | HSL | Uso |
+|-------|-----|-----|
+| `--background` | `0 0% 100%` | Fundo principal |
+| `--foreground` | `0 0% 10.55%` | Texto principal |
+| `--primary` | `41.19 84.13% 66.47%` | Cor de destaque (dourado/âmbar) |
+| `--primary-foreground` | `0 0% 0%` | Texto sobre primary |
+| `--secondary` | `234.62 14.04% 95.29%` | Fundo secundário (azul acinzentado claro) |
+| `--secondary-foreground` | `235.71 33.92% 25.49%` | Texto sobre secondary |
+| `--muted` | `231.43 10.2% 97.65%` | Fundos sutis |
+| `--muted-foreground` | `234.78 24.03% 46%` | Texto de apoio/desabilitado |
+| `--accent` | `79.41 100% 95.88%` | Destaque verde claro |
+| `--accent-foreground` | `41.85 84.66% 35.1%` | Texto sobre accent |
+| `--destructive` | `17.86 87.85% 65.49%` | Ações destrutivas (laranja-vermelho) |
+| `--destructive-foreground` | `0 0% 100%` | Texto sobre destructive |
+| `--border` | `234.55 24.24% 91.76%` | Bordas |
+| `--input` | `234.55 24.24% 91.76%` | Bordas de inputs |
+| `--ring` | `41.19 84.13% 66.47%` | Anel de foco |
+
+**Dark Mode** (classe `.dark` no `<html>`)
+
+| Token | HSL |
+|-------|-----|
+| `--background` | `0 0% 8.04%` |
+| `--foreground` | `0 0% 91.18%` |
+| `--primary` | `41.19 84.13% 66.47%` |
+| `--secondary` | `0 0% 10.55%` |
+| `--muted` | `0 0% 9.41%` |
+| `--muted-foreground` | `0 0% 70.59%` |
+| `--accent` | `41.85 84.66% 35.1%` |
+| `--border` | `0 0% 14.51%` |
+
+**Cores de Gráficos**
+
+| Token | HSL | Cor visual |
+|-------|-----|-----------|
+| `--chart-1` | `142 71% 45%` | Verde |
+| `--chart-2` | `217 91% 60%` | Azul |
+| `--chart-3` | `43 96% 56%` | Amarelo |
+| `--chart-4` | `220 9% 46%` | Cinza |
+| `--chart-5` | `0 84% 60%` | Vermelho |
+
+**Sidebar**
+
+| Token | Light | Dark |
+|-------|-------|------|
+| `--sidebar-background` | `231.43 10.2% 97.65%` | `0 0% 6.59%` |
+| `--sidebar-foreground` | `0 0% 10.55%` | `0 0% 91.18%` |
+| `--sidebar-primary` | `41.19 84.13% 66.47%` | `41.19 84.13% 66.47%` |
+| `--sidebar-accent` | `79.41 100% 95.88%` | `41.85 84.66% 35.1%` |
+| `--sidebar-border` | `234.55 24.24% 91.76%` | `0 0% 14.51%` |
+
+---
+
+### Border Radius
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `--radius` | `0.375rem` (6px) | Base — buttons, inputs, badges |
+| `--radius-sm` | `0.25rem` (4px) | Tags, chips tiny |
+| `--radius-md` | `0.75rem` (12px) | Small cards, popovers |
+| `--radius-lg` | `1rem` (16px) | Cards |
+| `--radius-xl` | `1.25rem` (20px) | Hero cards, lane cards |
+
+---
+
+### Identidade Visual
+
+| Item | Valor |
+|------|-------|
+| Cor da marca | `--brand: #d1193a` (vermelho Mischa's) |
+| Header | Fundo `var(--brand)`, texto branco |
+| Tema padrão | Light mode (dark mode via classe `.dark`) |
+
+---
+
+### Regras de Uso
+
+- Nunca usar cores hardcoded em componentes — sempre usar tokens semânticos (`var(--background)`, `var(--foreground)`, `var(--muted-foreground)`, etc.)
+- Todas as cores definidas como `hsl()` completo no `index.html`
+- Suporte a dark mode via classe `.dark` no elemento `<html>`
+- Títulos (`h1`–`h6`) usam `var(--font-serif)`; body e UI usam `var(--font-sans)`; dados e valores usam `var(--font-mono)`
 
 ---
 
