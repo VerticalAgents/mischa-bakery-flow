@@ -895,7 +895,7 @@ function renderDash() {
     `<div class="insight-card"><div class="insight-content">
       <div class="insight-label">Diagnóstico</div>
       <div class="insight-msg">${insightMsg}</div>
-      <button class="insight-btn" onclick="${insightAction}">${insightBtn}</button>
+      <button class="insight-btn" onclick="${insightAction}">${insightBtn.replace('→','<span class="btn-arrow">→</span>')}</button>
     </div></div>`;
 
   // areas list
