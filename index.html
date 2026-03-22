@@ -849,6 +849,11 @@ function renderDash() {
       ${heroChart}
       <div class="cycle-indicators">${cyclesDots}</div>
     </div>`;
+  // KPI pulse
+  requestAnimationFrame(()=>{
+    const v = document.querySelector('.hero-value');
+    if(v){ v.classList.remove('kpi-fresh'); void v.offsetWidth; v.classList.add('kpi-fresh'); }
+  });
 
   // equipe card
   document.getElementById('equipe-card').innerHTML =
