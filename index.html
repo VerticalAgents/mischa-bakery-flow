@@ -795,9 +795,9 @@ function toggleArea(id) {
 function renderDash() {
   const d = calc();
 
-  // cycle dots
+  // cycle dots (clickable)
   const cyclesDots = Array.from({length: d.ciclos}, (_,i) =>
-    `<span class="cycle-dot${i===0?' active':''}" title="Ciclo ${i+1}">C${i+1}</span>`
+    `<span class="cycle-dot${i===0?' active':''}" onclick="cycleDotClick(this,${i+1},${d.ciclos})" title="Ciclo ${i+1} de ${d.ciclos}">C${i+1}</span>`
   ).join('');
 
   // mini bar chart SVG
