@@ -1017,6 +1017,67 @@ function adjPpl(area, delta) {
 }
 
 // ═══════════════════════════
+//  LANE PROGRESS
+// ═══════════════════════════
+function updateLaneProgress() {
+  const ddl = showDDL();
+  const lanes = [
+    { id: 'prod', steps: STEPS.prod },
+    { id: 'pos',  steps: STEPS.pos  },
+    { id: 'pre',  steps: STEPS.pre  }
+  ];
+  lanes.forEach(({ id, steps }) => {
+    const el = document.getElementById('lane-prog-' + id);
+    if(!el) return;
+    let total = 0, filled = 0;
+    const flat = [];
+    steps.forEach(s => s.isGroup ? flat.push(...s.steps) : flat.push(s));
+    flat.forEach(s => {
+      if(s.ddlOnly && !ddl) return;
+      if(s.type === 'auto' || s.fixedLabel || s.fixed) return; // auto steps don't need input
+      total++;
+      if(S.times[s.id] != null || s.defaultVal != null) filled++;
+    });
+    if(total === 0) { el.innerHTML = ''; return; }
+    const pct = Math.round(filled / total * 100);
+    const cls = filled === total ? 'complete' : filled > 0 ? 'partial' : 'empty';
+    el.innerHTML =
+      `<div class="lane-progress-track"><div class="lane-progress-fill ${cls}" style="width:${pct}%"></div></div>` +
+      `<span class="lane-progress-label ${cls}">${filled}/${total}</span>`;
+  });
+}
+
+// ═══════════════════════════
+//  CHART TOOLTIP
+// ═══════════════════════════
+function showChartTip(e, text) {
+  const tip = document.getElementById('chart-tooltip');
+  tip.textContent = text;
+  tip.classList.add('visible');
+  moveTip(e);
+  tip._move = ev => moveTip(ev);
+  document.addEventListener('mousemove', tip._move);
+}
+function moveTip(e) {
+  const tip = document.getElementById('chart-tooltip');
+  tip.style.left = (e.clientX + 12) + 'px';
+  tip.style.top  = (e.clientY - 28) + 'px';
+}
+function hideChartTip() {
+  const tip = document.getElementById('chart-tooltip');
+  tip.classList.remove('visible');
+  if(tip._move) { document.removeEventListener('mousemove', tip._move); tip._move = null; }
+}
+
+// ═══════════════════════════
+//  CYCLE DOT CLICK
+// ═══════════════════════════
+function cycleDotClick(el, n, total) {
+  document.querySelectorAll('.cycle-dot').forEach(d => d.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ═══════════════════════════
 //  INIT
 // ═══════════════════════════
 load();
