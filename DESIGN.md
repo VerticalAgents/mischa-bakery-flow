@@ -1,6 +1,6 @@
 # DESIGN.md — Redesign do Dashboard
 
-Referência visual: **Twisty Dashboard** (image de referência fornecida pelo usuário).
+Referência visual: **Twisty Dashboard** (layout) + **Mischa's Bakery** (identidade/paleta).
 
 ---
 
@@ -8,11 +8,11 @@ Referência visual: **Twisty Dashboard** (image de referência fornecida pelo us
 
 | Princípio | Descrição |
 |-----------|-----------|
-| **Clean & Airy** | Fundo claro `#f0eee9`, cards brancos com sombras suaves, espaçamento generoso |
+| **Clean & Airy** | Fundo claro `#faf5f0`, cards brancos com sombras suaves, espaçamento generoso |
 | **Rounded Surfaces** | Todos os cards com `border-radius: 16–20px`, cantos arredondados em botões e inputs |
 | **Subtle Depth** | `box-shadow: 0 2px 12px rgba(0,0,0,0.06)` nos cards, sem bordas pesadas |
 | **Data-forward** | Números grandes e proeminentes, labels discretos em uppercase 10px |
-| **Warm Neutrals** | Paleta base bege/off-white, acentos em cores semânticas (amber, blue, green) |
+| **Mischa Brand** | Vermelho crimson `#c41230` como cor de marca, dourado `#d4a843` como accent/CTA — identidade visual da padaria |
 
 ---
 
@@ -258,18 +258,27 @@ Inspirado no grid 2-colunas da referência Twisty:
 
 ---
 
-## Paleta de Cores (atualizada)
+## Paleta de Cores — Mischa's Bakery
 
 | Token | Hex | Uso |
 |-------|-----|-----|
-| `--bg` | `#f0eee9` | Fundo global (mais quente que o atual `#f7f4ef`) |
+| `--bg` | `#faf5f0` | Fundo global — off-white quente |
 | `--surface` | `#ffffff` | Cards e superfícies |
-| `--surface2` | `#f8f6f2` | Backgrounds secundários, inputs |
-| `--border` | `#e8e2d8` | Bordas leves, separadores |
+| `--surface2` | `#f5f0ea` | Backgrounds secundários, inputs |
+| `--border` | `#e8e0d4` | Bordas leves, separadores |
 | `--shadow` | `rgba(0,0,0,0.05)` | Sombras dos cards |
-| `--amber` | `#b86e1a` | Mantém — cor primária (mantém identidade Mischa) |
-| `--blue` | `#2a6ea0` | Produção |
-| `--green` | `#4a8c22` | Pós-produção |
+| `--crimson` | `#c41230` | **Cor da marca** — header, logo, destaques primários |
+| `--crimson-light` | `rgba(196,18,48,0.08)` | Backgrounds leves da marca |
+| `--gold` | `#d4a843` | **Accent/CTA** — botões primários, valores destacados |
+| `--gold-light` | `rgba(212,168,67,0.12)` | Hover em gold, badges |
+| `--gold-dim` | `#c49a38` | Hover escuro do gold |
+| `--blue` | `#2a6ea0` | Produção (área) |
+| `--blue-light` | `rgba(42,110,160,0.10)` | Background area Produção |
+| `--green` | `#4a8c22` | Pós-produção (área) |
+| `--green-light` | `rgba(74,140,34,0.10)` | Background área Pós |
+| `--amber` | `#b86e1a` | Pré-produção (área) |
+| `--amber-light` | `rgba(184,110,26,0.10)` | Background área Pré |
+| `--purple` | `#8a4a8a` | DDL / paralelo |
 | `--text` | `#2a2218` | Texto principal |
 | `--text-muted` | `#7a6e5e` | Labels, subtexto |
 | `--text-dim` | `#b0a898` | Placeholders, metadados |
