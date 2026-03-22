@@ -253,7 +253,7 @@
   .dash-bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 767px) { .dash-bottom-grid { grid-template-columns: 1fr; } .hero-value { font-size: 32px; } }
 
-  .connect-card { background: var(--surface); border-radius: 16px; padding: 22px 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  .connect-card { background: var(--surface); border-radius: var(--radius-lg); padding: 22px 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
   .connect-title { font-family: var(--font-serif); font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
   .connect-person { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
   .connect-person:last-child { border-bottom: none; padding-bottom: 0; }
@@ -270,7 +270,7 @@
   .ppl-btn-sm:hover { border-color: var(--amber); color: var(--amber); }
   .ppl-val-sm { font-size: 16px; font-weight: 500; min-width: 20px; text-align: center; color: var(--amber); font-family: var(--font-mono); }
 
-  .insight-card { background: linear-gradient(135deg, #faf8f5 0%, #f0ece4 100%); border-radius: 16px; padding: 22px 22px; position: relative; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  .insight-card { background: linear-gradient(135deg, #faf8f5 0%, #f0ece4 100%); border-radius: var(--radius-lg); padding: 22px 22px; position: relative; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
   .insight-card::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, var(--border) 1px, transparent 1px); background-size: 16px 16px; opacity: 0.5; pointer-events: none; }
   .insight-content { position: relative; z-index: 1; }
   .insight-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
@@ -311,7 +311,7 @@
   .bk-table .bk-time { text-align: right; color: var(--amber); font-weight: 500; white-space: nowrap; }
   .bk-table .bk-time.missing { color: var(--text-dim); font-weight: 400; }
 
-  .turno-card { background: var(--surface); border-radius: 16px; padding: 22px 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  .turno-card { background: var(--surface); border-radius: var(--radius-lg); padding: 22px 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
   .turno-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
   .turno-card-title { font-family: var(--font-serif); font-size: 14px; font-weight: 700; color: var(--text); }
   .turno-today { font-size: 11px; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; }
