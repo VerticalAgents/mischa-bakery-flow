@@ -130,7 +130,7 @@
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   .flavor-toggle { display: flex; gap: 2px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: calc(var(--radius) * 2); padding: 3px; }
-  .flavor-btn { background: none; border: none; color: rgba(255,255,255,0.7); font-family: var(--font-mono); font-size: 11px; padding: 5px 12px; border-radius: 6px; cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
+  .flavor-btn { background: none; border: none; color: rgba(255,255,255,0.7); font-family: var(--font-mono); font-size: 11px; padding: 5px 12px; border-radius: var(--radius); cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
   .flavor-btn.active { background: var(--gold); color: white; font-weight: 500; }
   .icon-btn { background: none; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.8); font-family: var(--font-mono); font-size: 11px; padding: 7px 14px; border-radius: calc(var(--radius) * 2); cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
   .icon-btn:hover { border-color: var(--gold); color: var(--gold); }
@@ -159,7 +159,7 @@
   .lane-header-text { flex: 1; }
   .lane-name { font-family: var(--font-serif); font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
   .lane-resp { font-size: 11px; color: var(--text-muted); }
-  .lane-sub-badge { font-size: 10px; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; letter-spacing: 0.04em; flex-shrink: 0; }
+  .lane-sub-badge { font-size: 10px; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 10px; letter-spacing: 0.04em; flex-shrink: 0; }
 
   .lane-flow-area { padding: 20px 28px 24px; overflow-x: auto; }
   .flow { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0; }
@@ -293,7 +293,7 @@
   .area-name { font-family: var(--font-serif); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
   .area-meta { font-size: 11px; color: var(--text-muted); }
   .area-tags { display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
-  .area-tag { font-size: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 2px 7px; color: var(--text-muted); }
+  .area-tag { font-size: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 2px 7px; color: var(--text-muted); }
   .area-right { text-align: right; flex-shrink: 0; }
   .area-value { font-family: var(--font-serif); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
   .status-badge { display: inline-block; padding: 3px 10px; border-radius: var(--radius-md); font-size: 10px; font-weight: 500; }
@@ -314,7 +314,7 @@
   .turno-card { background: var(--surface); border-radius: var(--radius-lg); padding: 22px 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
   .turno-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
   .turno-card-title { font-family: var(--font-serif); font-size: 14px; font-weight: 700; color: var(--text); }
-  .turno-today { font-size: 11px; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; }
+  .turno-today { font-size: 11px; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 10px; }
   .turno-kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 20px; }
   .turno-kpi-item { background: var(--surface); padding: 16px 10px; text-align: center; }
   .turno-kpi-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
